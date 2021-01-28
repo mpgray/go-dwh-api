@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/mux"
-	"go-contacts/app"
-	"go-contacts/controllers"
+	"go-hoa-api/app"
+	"go-hoa-api/controllers"
 	"net/http"
 	"os"
 )

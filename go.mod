@@ -1,4 +1,4 @@
-module go-contacts
+module go-hoa-api
 
 go 1.15
 

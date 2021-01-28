@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
-	"go-contacts/models"
-	u "go-contacts/utils"
+	"go-hoa-api/models"
+	u "go-hoa-api/utils"
 	"net/http"
 )
 

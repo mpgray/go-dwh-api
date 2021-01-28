@@ -3,7 +3,7 @@ package models
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	u "go-contacts/utils"
+	u "go-hoa-api/utils"
 )
 
 type Contact struct {
@@ -36,7 +36,7 @@ func (contact *Contact) Validate() (map[string]interface{}, bool) {
 	return u.Message(true, "success"), true
 }
 
-func (contact *Contact) Create() (map[string]interface{}) {
+func (contact *Contact) Create() map[string]interface{} {
 
 	if resp, ok := contact.Validate(); !ok {
 		return resp
@@ -49,7 +49,7 @@ func (contact *Contact) Create() (map[string]interface{}) {
 	return resp
 }
 
-func GetContact(id uint) (*Contact) {
+func GetContact(id uint) *Contact {
 
 	contact := &Contact{}
 	err := GetDB().Table("contacts").Where("id = ?", id).First(contact).Error
@@ -59,7 +59,7 @@ func GetContact(id uint) (*Contact) {
 	return contact
 }
 
-func GetContacts(user uint) ([]*Contact) {
+func GetContacts(user uint) []*Contact {
 
 	contacts := make([]*Contact, 0)
 	err := GetDB().Table("contacts").Where("user_id = ?", user).Find(&contacts).Error

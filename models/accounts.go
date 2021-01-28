@@ -3,7 +3,7 @@ package models
 import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
-	u "go-contacts/utils"
+	u "go-hoa-api/utils"
 	"golang.org/x/crypto/bcrypt"
 	"os"
 	"strings"
@@ -51,7 +51,7 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 	return u.Message(false, "Requirement passed"), true
 }
 
-func (account *Account) Create() (map[string]interface{}) {
+func (account *Account) Create() map[string]interface{} {
 
 	if resp, ok := account.Validate(); !ok {
 		return resp
@@ -79,7 +79,7 @@ func (account *Account) Create() (map[string]interface{}) {
 	return response
 }
 
-func Login(email, password string) (map[string]interface{}) {
+func Login(email, password string) map[string]interface{} {
 
 	account := &Account{}
 	err := GetDB().Table("accounts").Where("email = ?", email).First(account).Error
