@@ -11,15 +11,13 @@ import (
 	"strings"
 )
 
-/*
-JWT claims struct
-*/
+// Token is a strct which gets the jwt for our claim.
 type Token struct {
-	UserId uint
+	UserID uint
 	jwt.StandardClaims
 }
 
-//a struct to rep user account
+//Account is used to login the user with their email and password using tokens from jwt
 type Account struct {
 	gorm.Model
 	Email    string `json:"email"`
@@ -35,7 +33,7 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 	}
 
 	passwordValidator := p.Validator{MinLength(5, nil), MaxLength(18, nil)}
-	password := passwordValidator.Validate(account.Password)
+	passwordMessage := passwordValidator.Validate(account.Password)
 	if password != nil {
 		return u.Message(false, password), false
 	}
@@ -55,6 +53,7 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 	return u.Message(false, "Requirement passed"), true
 }
 
+// Create the user's account
 func (account *Account) Create() map[string]interface{} {
 
 	if resp, ok := account.Validate(); !ok {
@@ -83,6 +82,7 @@ func (account *Account) Create() map[string]interface{} {
 	return response
 }
 
+// Login to the account using bcrypt and JWT
 func Login(email, password string) map[string]interface{} {
 
 	account := &Account{}
@@ -112,6 +112,7 @@ func Login(email, password string) map[string]interface{} {
 	return resp
 }
 
+// GetUser returns nil when user not found in the database and the information it does
 func GetUser(u uint) *Account {
 
 	acc := &Account{}

@@ -3,7 +3,7 @@ package models
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/jinzhu/gorm/dialects/postgres" // this is a _ 'blank' import because it is needed to load the drivers
 	"github.com/joho/godotenv"
 	"os"
 )
@@ -22,10 +22,10 @@ func init() {
 	dbName := os.Getenv("db_name")
 	dbHost := os.Getenv("db_host")
 
-	dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
-	fmt.Println(dbUri)
+	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
+	fmt.Println(dbURI)
 
-	conn, err := gorm.Open("postgres", dbUri)
+	conn, err := gorm.Open("postgres", dbURI)
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -34,6 +34,7 @@ func init() {
 	db.Debug().AutoMigrate(&Account{}, &Contact{})
 }
 
+// GetDB creates the connection to our postgres database
 func GetDB() *gorm.DB {
 	return db
 }
