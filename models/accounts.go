@@ -1,7 +1,9 @@
 package models
 
 import (
+	e "github.com/dchest/validator" //email validation
 	"github.com/dgrijalva/jwt-go"
+	p "github.com/go-passwd/validator" // password validation
 	"github.com/jinzhu/gorm"
 	u "go-hoa-api/utils"
 	"golang.org/x/crypto/bcrypt"
@@ -28,12 +30,14 @@ type Account struct {
 //Validate incoming user details...
 func (account *Account) Validate() (map[string]interface{}, bool) {
 
-	if !strings.Contains(account.Email, "@") {
+	if !e.IsValidEmail(account.Email) {
 		return u.Message(false, "Email address is required"), false
 	}
 
-	if len(account.Password) < 6 {
-		return u.Message(false, "Password is required"), false
+	passwordValidator := p.Validator{MinLength(5, nil), MaxLength(18, nil)}
+	password := passwordValidator.Validate(account.Password)
+	if password != nil {
+		return u.Message(false, password), false
 	}
 
 	//Email must be unique
