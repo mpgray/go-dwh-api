@@ -20,10 +20,23 @@ type Token struct {
 //Account is used to login the user with their email and password using tokens from jwt
 type Account struct {
 	gorm.Model
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Token    string `json:"token";sql:"-"`
+	Email    string   `json:"email"`
+	Password string   `json:"password"`
+	UserType UserType `json:"userType"`
+	Token    string   `json:"token"; sql:"-"`
 }
+
+// UserType represents what the use could be. Home Owner, manager, SuperUser
+type UserType uint8
+
+const (
+	// Owner is the Home Owner
+	Owner UserType = iota
+	// Manager is the HOA
+	Manager
+	// SuperUser is administrator of this application
+	SuperUser
+)
 
 // errorString is a trivial implementation of error.
 type errorString struct {

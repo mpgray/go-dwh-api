@@ -2,23 +2,44 @@ package models
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
 	u "go-hoa-api/utils"
+
+	"github.com/jinzhu/gorm"
 )
 
 // Contact gets the Name, phone and UserID of the contact
 type Contact struct {
 	gorm.Model
-	Name   string `json:"name"`
-	Phone  string `json:"phone"`
-	UserID uint   `json:"user_id"` //The user that this contact belongs to
+	UserID     uint      `json:"user_id"` //The user that this contact belongs to
+	Name       FullName  `json:"name"`
+	Address    Address   `json:"address"`
+	Properties []Address `json:"propertyAddresses"`
+	Phone      string    `json:"phone"`
+}
+
+//FullName contains owners first middle and last name
+type FullName struct {
+	First  string `json:"first"`
+	Middle string `json:"middle"`
+	Last   string `json:"last"`
+}
+
+//Address contains all of the address information
+type Address struct {
+	Line1 string `json:"line1"`
+	Line2 string `json:"line2"`
+	Unit  string `json:"unit"`
+	City  string `json:"city"`
+	State string `json:"state"`
+	Zip   string `json:"zip"`
+	Zip4  string `json:"zip4"`
 }
 
 // Validate validates the required parameters sent through the http request body
 // returns message and true if the requirement is met
 func (contact *Contact) Validate() (map[string]interface{}, bool) {
 
-	if contact.Name == "" {
+	if contact.Name.First == "" {
 		return u.Message(false, "Contact name should be on the payload"), false
 	}
 
