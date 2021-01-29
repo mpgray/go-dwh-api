@@ -1,14 +1,14 @@
 package models
 
 import (
+	u "go-hoa-api/utils"
+	"os"
+
 	e "github.com/dchest/validator" //email validation
 	"github.com/dgrijalva/jwt-go"
 	p "github.com/go-passwd/validator" // password validation
 	"github.com/jinzhu/gorm"
-	u "go-hoa-api/utils"
 	"golang.org/x/crypto/bcrypt"
-	"os"
-	"strings"
 )
 
 // Token is a strct which gets the jwt for our claim.
@@ -25,6 +25,15 @@ type Account struct {
 	Token    string `json:"token";sql:"-"`
 }
 
+// errorString is a trivial implementation of error.
+type errorString struct {
+	s string
+}
+
+func (e *errorString) Error() string {
+	return e.s
+}
+
 //Validate incoming user details...
 func (account *Account) Validate() (map[string]interface{}, bool) {
 
@@ -32,10 +41,10 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 		return u.Message(false, "Email address is required"), false
 	}
 
-	passwordValidator := p.Validator{MinLength(5, nil), MaxLength(18, nil)}
+	passwordValidator := p.Validator{p.MinLength(5, nil), p.MaxLength(18, nil)}
 	passwordMessage := passwordValidator.Validate(account.Password)
-	if password != nil {
-		return u.Message(false, password), false
+	if passwordMessage != nil {
+		return u.Message(false, passwordMessage.Error()), false
 	}
 
 	//Email must be unique
@@ -70,7 +79,7 @@ func (account *Account) Create() map[string]interface{} {
 	}
 
 	//Create new JWT token for the newly registered account
-	tk := &Token{UserId: account.ID}
+	tk := &Token{UserID: account.ID}
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 	tokenString, _ := token.SignedString([]byte(os.Getenv("token_password")))
 	account.Token = tokenString
@@ -102,7 +111,7 @@ func Login(email, password string) map[string]interface{} {
 	account.Password = ""
 
 	//Create JWT token
-	tk := &Token{UserId: account.ID}
+	tk := &Token{UserID: account.ID}
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 	tokenString, _ := token.SignedString([]byte(os.Getenv("token_password")))
 	account.Token = tokenString //Store the token in the response
