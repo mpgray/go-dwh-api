@@ -23,19 +23,19 @@ type Account struct {
 	Email    string   `json:"email"`
 	Password string   `json:"password"`
 	UserType UserType `json:"userType"`
-	Token    string   `json:"token"; sql:"-"`
+	Token    string   `json:"token";sql:"-"`
 }
 
 // UserType represents what the use could be. Home Owner, manager, SuperUser
 type UserType uint8
 
 const (
-	// Owner is the Home Owner
-	Owner UserType = iota
-	// Manager is the HOA
-	Manager
-	// SuperUser is administrator of this application
-	SuperUser
+	// OWNER is the Home Owner
+	OWNER UserType = iota
+	// MANAGER is the HOA
+	MANAGER
+	// SUPERUSER is administrator of this application
+	SUPERUSER
 )
 
 // errorString is a trivial implementation of error.

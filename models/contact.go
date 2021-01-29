@@ -12,9 +12,9 @@ type Contact struct {
 	gorm.Model
 	UserID     uint      `json:"user_id"` //The user that this contact belongs to
 	Name       FullName  `json:"name"`
-	Address    Address   `json:"address"`
-	Properties []Address `json:"propertyAddresses"`
-	Phone      string    `json:"phone"`
+	Address    Address   `json:"address"`           // Mailing address
+	Properties []Address `json:"propertyAddresses"` // The properties owned by the owner
+	Phone      Phone     `json:"phone"`
 }
 
 //FullName contains owners first middle and last name
@@ -35,6 +35,28 @@ type Address struct {
 	Zip4  string `json:"zip4"`
 }
 
+// Phone Contains different phone numbers of the home owner
+type Phone struct {
+	Cell    string       `json:"cellPhone"`
+	Home    string       `json:"homePhone"`
+	Work    string       `json:"workPhone"`
+	Other   string       `json:"otherPhone"`
+	Primary PrimaryPhone `json:"primaryPhone"`
+}
+
+// PrimaryPhone is an enum to determain primary phone contact
+type PrimaryPhone uint8
+
+const (
+	// CELL is Primary phone
+	CELL PrimaryPhone = iota
+	// HOME is Primary phone
+	HOME
+	// WORK is Primary phone
+	WORK
+	// Other number is primary phone
+)
+
 // Validate validates the required parameters sent through the http request body
 // returns message and true if the requirement is met
 func (contact *Contact) Validate() (map[string]interface{}, bool) {
@@ -43,7 +65,7 @@ func (contact *Contact) Validate() (map[string]interface{}, bool) {
 		return u.Message(false, "Contact name should be on the payload"), false
 	}
 
-	if contact.Phone == "" {
+	if contact.Phone.Cell == "" {
 		return u.Message(false, "Phone number should be on the payload"), false
 	}
 

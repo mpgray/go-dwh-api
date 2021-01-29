@@ -12,6 +12,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+// JwtAuthentication resolves if the token is valid, exists and matches.
+// If it does not, it returns a 403 error.
 var JwtAuthentication = func(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -72,7 +74,8 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 		}
 
 		//Everything went well, proceed with the request and set the caller to the user retrieved from the parsed token
-		fmt.Sprintf("User %", tk.UserID) //Useful for monitoring
+		// fmt.Sprintf("User %d", tk.UserID) //Useful for monitoring
+		fmt.Printf("User %d", tk.UserID)
 		ctx := context.WithValue(r.Context(), "user", tk.UserID)
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r) //proceed in the middleware chain!
