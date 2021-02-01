@@ -90,7 +90,7 @@ func (contact *Contact) Validate() (map[string]interface{}, bool) {
 	}
 
 	if isValid {
-		message = "Success"
+		message = "success"
 	}
 
 	//Shows what is missing and if successful, displays success message

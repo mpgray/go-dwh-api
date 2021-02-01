@@ -54,7 +54,7 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 		return u.Message(false, "Email address is required"), false
 	}
 
-	passwordValidator := p.Validator{p.MinLength(5, nil), p.MaxLength(18, nil)}
+	passwordValidator := p.Validator{p.MinLength(6, nil), p.MaxLength(40, nil), p.CommonPassword(nil)}
 	passwordMessage := passwordValidator.Validate(account.Password)
 	if passwordMessage != nil {
 		return u.Message(false, passwordMessage.Error()), false
