@@ -13,7 +13,30 @@ type Statement struct {
 	DueDate time.Time `json:"dueDate"`
 	Owed    float64   `json:"owed"`
 	PastDue float64   `json:"pastDue"`
+	Monthly Monthly   `json:"monthlyStatement"`
 }
+
+type Monthly struct {
+	Month Month
+}
+
+type Month uint8
+
+const (
+	CURRENT Month = iota
+	JANUARY
+	FEBRUARY
+	MARCH
+	APRIL
+	MAY
+	JUNE
+	JULY
+	AUGUST
+	SEPTEMBER
+	OCTOBER
+	NOVEMBER
+	DECEMBER
+)
 
 // GetCurrentStatement of the account number.
 func GetCurrentStatement(id uint) *Statement {
