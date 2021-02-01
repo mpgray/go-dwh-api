@@ -16,25 +16,25 @@ type Statement struct {
 }
 
 // GetCurrentStatement of the account number.
-func GetCurrentStatement(id uint) *Contact {
+func GetCurrentStatement(id uint) *Statement {
 
-	contact := &Contact{}
-	err := GetDB().Table("contacts").Where("id = ?", id).First(contact).Error
+	statement := &Statement{}
+	err := GetDB().Table("statements").Where("id = ?", id).First(statement).Error
 	if err != nil {
 		return nil
 	}
-	return contact
+	return statement
 }
 
 // GetStatementHistory of the account number for the past year.
-func GetStatementHistory(user uint) []*Contact {
+func GetStatementHistory(user uint) []*Statement {
 
-	contacts := make([]*Contact, 0)
-	err := GetDB().Table("contacts").Where("user_id = ?", user).Find(&contacts).Error
+	statements := make([]*Statement, 0)
+	err := GetDB().Table("statements").Where("user_id = ?", user).Find(&statements).Error
 	if err != nil {
 		fmt.Println(err)
 		return nil
 	}
 
-	return contacts
+	return statements
 }
