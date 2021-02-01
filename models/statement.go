@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-
 	"time"
 
 	"github.com/jinzhu/gorm"

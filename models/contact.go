@@ -62,21 +62,39 @@ const (
 // Validate validates the required parameters sent through the http request body
 // returns message and true if the requirement is met
 func (contact *Contact) Validate() (map[string]interface{}, bool) {
+	message := "Missing required fields:\n"
+	isValid := true
 
 	if contact.Name.First == "" {
-		return u.Message(false, "Contact name should be on the payload"), false
+		message += "First Name\n"
+		isValid = false
+	}
+
+	if contact.Name.Last == "" {
+		message += "Last Name\n"
+		isValid = false
 	}
 
 	if contact.Phone.Cell == "" {
-		return u.Message(false, "Phone number should be on the payload"), false
+		message += "Cell Phone\n"
+		isValid = false
+	}
+
+	if contact.Address.Line1 == "" || contact.Address.City == "" || contact.Address.State == "" || contact.Address.Zip == "" {
+		message = "Address, City, State or Zip\n"
 	}
 
 	if contact.UserID <= 0 {
-		return u.Message(false, "User is not recognized"), false
+		message = "Unknow User" // if user isnt' know, no other data should display
+		isValid = false
 	}
 
-	//All the required parameters are present
-	return u.Message(true, "success"), true
+	if isValid {
+		message = "Success"
+	}
+
+	//Shows what is missing and if successful, displays success message
+	return u.Message(isValid, message), isValid
 }
 
 // Create makes the contact
