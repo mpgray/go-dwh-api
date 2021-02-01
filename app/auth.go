@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"go-hoa-api/models"
-	u "go-hoa-api/utils"
 	"net/http"
 	"os"
 	"strings"
@@ -30,23 +29,16 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 			}
 		}
 
-		response := make(map[string]interface{})
 		tokenHeader := r.Header.Get("Authorization") //Grab the token from the header
 
 		if tokenHeader == "" { //Token is missing, returns with error code 403 Unauthorized
-			response = u.Message(false, "Missing auth token")
-			w.WriteHeader(http.StatusForbidden)
-			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			UnauthorizedError(w, "Missing auth token")
 			return
 		}
 
 		splitted := strings.Split(tokenHeader, " ") //The token normally comes in format `Bearer {token-body}`, we check if the retrieved token matched this requirement
 		if len(splitted) != 2 {
-			response = u.Message(false, "Invalid/Malformed auth token")
-			w.WriteHeader(http.StatusForbidden)
-			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			UnauthorizedError(w, "Invalid/Malformed auth token")
 			return
 		}
 
@@ -58,18 +50,12 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 		})
 
 		if err != nil { //Malformed token, returns with http code 403 as usual
-			response = u.Message(false, "Malformed authentication token")
-			w.WriteHeader(http.StatusForbidden)
-			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			UnauthorizedError(w, "Malformed authentication token")
 			return
 		}
 
 		if !token.Valid { //Token is invalid, maybe not signed on this server
-			response = u.Message(false, "Token is not valid.")
-			w.WriteHeader(http.StatusForbidden)
-			w.Header().Add("Content-Type", "application/json")
-			u.Respond(w, response)
+			UnauthorizedError(w, "Token is not valid.")
 			return
 		}
 

@@ -14,3 +14,12 @@ var NotFoundHandler = func(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
+// UnauthorizedError messaging and 403 Error when  authentication determines the user is unauthorized
+func UnauthorizedError(w http.ResponseWriter, message string) {
+	response := make(map[string]interface{})
+	response = u.Message(false, message)
+	w.WriteHeader(http.StatusForbidden)
+	w.Header().Add("Content-Type", "application/json")
+	u.Respond(w, response)
+}

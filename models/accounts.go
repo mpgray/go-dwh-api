@@ -23,7 +23,7 @@ type Account struct {
 	Email    string   `json:"email"`
 	Password string   `json:"password"`
 	UserType UserType `json:"userType"`
-	Token    string   `json:"token";sql:"-"`
+	Token    string   `json:"token" sql:"-"`
 }
 
 // UserType represents what the use could be. Home Owner, manager, SuperUser
