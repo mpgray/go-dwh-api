@@ -126,7 +126,7 @@ func GetContact(id uint) *Contact {
 func GetContacts(user uint) []*Contact {
 
 	contacts := make([]*Contact, 0)
-	err := GetDB().Table("contacts").Where("user_id = ?", user).Find(&contacts).Error
+	err := GetDB().Table("contacts").Where("userId = ?", user).Find(&contacts).Error
 	if err != nil {
 		fmt.Println(err)
 		return nil
