@@ -10,10 +10,18 @@ import (
 // Statement of billing for the owner
 type Statement struct {
 	gorm.Model
-	DueDate time.Time `json:"dueDate"`
-	Owed    float64   `json:"owed"`
-	PastDue float64   `json:"pastDue"`
-	Monthly Monthly   `json:"monthlyStatement"`
+	DueDate     time.Time  `json:"dueDate"`
+	Balance     float64    `json:"balance"`
+	Assessments Assessment `json:"assessment"`
+
+	PastDue float64 `json:"pastDue"`
+	Monthly Monthly `json:"monthlyStatement"`
+}
+
+type Assessment struct {
+	Name    string  `json:"name"`
+	Amount  float64 `json:"amount"`
+	Balance float64 `json:"balance"`
 }
 
 type Monthly struct {
