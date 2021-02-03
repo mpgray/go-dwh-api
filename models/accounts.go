@@ -11,7 +11,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// Token is a strct which gets the jwt for our claim.
+// Token is a struct which gets the jwt for our claim.
 type Token struct {
 	UserID uint
 	jwt.StandardClaims
