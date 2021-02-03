@@ -81,7 +81,8 @@ func (contact *Contact) Validate() (map[string]interface{}, bool) {
 	}
 
 	if contact.Address.Line1 == "" || contact.Address.City == "" || contact.Address.State == "" || contact.Address.Zip == "" {
-		message = "Address, City, State or Zip\n"
+		message += "Address, City, State or Zip\n"
+		isValid = false
 	}
 
 	if contact.UserID <= 0 {
