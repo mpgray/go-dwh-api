@@ -7,8 +7,8 @@ import (
 	e "github.com/dchest/validator" //email validation
 	"github.com/dgrijalva/jwt-go"
 	p "github.com/go-passwd/validator" // password validation
-	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 // Token is a struct which gets the jwt for our claim.
