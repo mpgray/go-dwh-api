@@ -19,12 +19,15 @@ type Statement struct {
 	Monthly Monthly `json:"monthlyStatement"`
 }
 
+// Assessment is different then a one time Charge as it is possible to be paid in installments.
+//
 type Assessment struct {
 	Name    string  `json:"name"`
 	Amount  float64 `json:"amount"`
 	Balance float64 `json:"balance"`
 }
 
+// Monthly is an archive of the last year of statements by month.
 type Monthly struct {
 	Month Month
 }
@@ -32,6 +35,7 @@ type Monthly struct {
 // Month is  an enum with 0 current month and actual months
 type Month uint8
 
+//Enum of months with current month being 0
 const (
 	CURRENT Month = iota
 	JANUARY
