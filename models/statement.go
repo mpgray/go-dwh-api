@@ -10,6 +10,7 @@ import (
 // Statement of billing for the owner
 type Statement struct {
 	gorm.Model
+	ID          uint
 	DueDate     time.Time  `json:"dueDate"`
 	Balance     float64    `json:"balance"`
 	Assessments Assessment `json:"assessment"`
@@ -28,6 +29,7 @@ type Monthly struct {
 	Month Month
 }
 
+// Month is  an enum with 0 current month and actual months
 type Month uint8
 
 const (

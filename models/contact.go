@@ -10,18 +10,19 @@ import (
 // Contact gets the Name, phone and UserID of the contact
 type Contact struct {
 	gorm.Model
-	UserID  uint     `json:"userId"`    //The user that this contact belongs to
-	OwnerID uint     `json:"accountId"` // The ID associated with this owner
-	Name    FullName `json:"name" gorm:"foreignKey:OwnerID"`
-	Address Address  `json:"address" gorm:"foreignKey:OwnerID"` // Mailing address
-	//	Properties []Address `json:"propertyAddresses" gorm:"foreignKey:OwnerID"` // The properties owned by the owner
-	Phone     Phone     `json:"phone"  gorm:"foreignKey:OwnerID"`
-	Statement Statement `gorm:"foreignKey:OwnerID"`
+	UserID     uint      `json:"userId"`    //The user that this contact belongs to
+	OwnerID    uint      `json:"accountId"` // The ID associated with this owner
+	Name       FullName  `json:"name" gorm:"foreignKey:OwnerID"`
+	Address    Address   `json:"address" gorm:"foreignKey:OwnerID"`           // Mailing address
+	Properties []Address `json:"propertyAddresses" gorm:"foreignKey:OwnerID"` // The properties owned by the owner
+	Phone      Phone     `json:"phone"  gorm:"foreignKey:OwnerID"`
+	//Statement  Statement `gorm:"foreignKey:OwnerID"`
 }
 
 //FullName contains owners first middle and last name
 type FullName struct {
 	gorm.Model
+	ID     uint
 	First  string `json:"first"`
 	Middle string `json:"middle"`
 	Last   string `json:"last"`
@@ -30,6 +31,7 @@ type FullName struct {
 //Address contains all of the address information
 type Address struct {
 	gorm.Model
+	ID    uint
 	Line1 string `json:"line1"`
 	Line2 string `json:"line2"`
 	Unit  string `json:"unit"`
@@ -42,6 +44,7 @@ type Address struct {
 // Phone Contains different phone numbers of the home owner
 type Phone struct {
 	gorm.Model
+	ID      uint
 	Cell    string       `json:"cellPhone"`
 	Home    string       `json:"homePhone"`
 	Work    string       `json:"workPhone"`
