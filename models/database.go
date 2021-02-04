@@ -33,7 +33,7 @@ func init() {
 	}
 
 	db = conn
-	db.Debug().AutoMigrate(&Account{}, &Contact{})
+	db.Debug().AutoMigrate(&Account{}, &Contact{}, &FullName{}, &Address{}, &Phone{})
 }
 
 // GetDB creates the connection to our postgres database

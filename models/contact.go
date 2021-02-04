@@ -10,13 +10,13 @@ import (
 // Contact gets the Name, phone and UserID of the contact
 type Contact struct {
 	gorm.Model
-	UserID     uint      `json:"userId"`    //The user that this contact belongs to
-	OwnerID    uint      `json:"accountId"` // The ID associated with this owner
-	Name       FullName  `json:"name"`
-	Address    Address   `json:"address"`           // Mailing address
-	Properties []Address `json:"propertyAddresses"` // The properties owned by the owner
-	Phone      Phone     `json:"phone"`
-	Statement  Statement `gorm:"foreignKey:OwnerID"`
+	UserID  uint     `json:"userId"`    //The user that this contact belongs to
+	OwnerID uint     `json:"accountId"` // The ID associated with this owner
+	Name    FullName `json:"name" gorm:"foreignKey:OwnerID"`
+	Address Address  `json:"address" gorm:"foreignKey:OwnerID"` // Mailing address
+	//	Properties []Address `json:"propertyAddresses" gorm:"foreignKey:OwnerID"` // The properties owned by the owner
+	Phone     Phone     `json:"phone"  gorm:"foreignKey:OwnerID"`
+	Statement Statement `gorm:"foreignKey:OwnerID"`
 }
 
 //FullName contains owners first middle and last name
