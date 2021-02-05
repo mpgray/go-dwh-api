@@ -16,7 +16,7 @@ type Statement struct {
 	Assessments Assessment `json:"assessment"`
 
 	PastDue float64 `json:"pastDue"`
-	Monthly Monthly `json:"monthlyStatement"`
+	//	Monthly     Monthly    `json:"monthlyStatement"  gorm:"foreignKey:OwnerID"`
 }
 
 // Assessment is different then a one time Charge as it is possible to be paid in installments.
