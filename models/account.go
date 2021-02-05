@@ -20,10 +20,12 @@ type Token struct {
 //Account is used to login the user with their email and password using tokens from jwt
 type Account struct {
 	gorm.Model
-	Email    string   `json:"email"`
-	Password string   `json:"password"`
-	UserType UserType `json:"userType"`
-	Token    string   `json:"token" sql:"-"`
+	Email     string   `json:"email"`
+	Password  string   `json:"password"`
+	UserType  UserType `json:"userType"`
+	ManagerID *uint
+	Owners    []Account `gorm:"foreignkey:ManagerID"`
+	Token     string    `json:"token" sql:"-"`
 }
 
 // UserType represents what the use could be. Home Owner, manager, SuperUser

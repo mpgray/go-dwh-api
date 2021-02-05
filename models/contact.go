@@ -13,8 +13,8 @@ type Contact struct {
 	UserID     uint      `json:"userId"`    //The user that this contact belongs to
 	OwnerID    uint      `json:"accountId"` // The ID associated with this owner
 	Name       FullName  `json:"name" gorm:"foreignKey:OwnerID"`
-	Address    Address   `json:"address" gorm:"foreignKey:OwnerID"`           // Mailing address
-	Properties []Address `json:"propertyAddresses" gorm:"foreignKey:OwnerID"` // The properties owned by the owner
+	Address    Address   `json:"address" gorm:"foreignKey:OwnerID"`      // Mailing address
+	Properties []Address `json:"propertyAddresses" gorm:"foreignKey:ID"` // The properties owned by the owner
 	Phone      Phone     `json:"phone"  gorm:"foreignKey:OwnerID"`
 	//Statement  Statement `gorm:"foreignKey:OwnerID"`
 }
@@ -63,6 +63,7 @@ const (
 	// WORK is Primary phone
 	WORK
 	// Other number is primary phone
+	OTHER
 )
 
 // Validate validates the required parameters sent through the http request body
