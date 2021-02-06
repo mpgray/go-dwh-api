@@ -7,10 +7,11 @@ import (
 
 // NotFoundHandler Error message when http message not found
 var NotFoundHandler = func(next http.Handler) http.Handler {
-
+	message := "This resource was not found on our server"
+	u.Log.Error(message)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
-		u.Respond(w, u.Message(false, "This resource was not found on our server"))
+		u.Respond(w, u.Message(false, message))
 		next.ServeHTTP(w, r)
 	})
 }
@@ -19,6 +20,7 @@ var NotFoundHandler = func(next http.Handler) http.Handler {
 func UnauthorizedError(w http.ResponseWriter, message string) {
 	response := make(map[string]interface{})
 	response = u.Message(false, message)
+	u.Log.Warn(message)
 	w.WriteHeader(http.StatusForbidden)
 	w.Header().Add("Content-Type", "application/json")
 	u.Respond(w, response)

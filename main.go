@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-hoa-api/app"
 	"go-hoa-api/controllers"
+	u "go-hoa-api/utils"
 	"net/http"
 	"os"
 
@@ -29,11 +30,11 @@ func main() {
 		port = "8989" //localhost
 	}
 
-	fmt.Println(port)
+	u.Log.Info(port)
 
 	handler := cors.Default().Handler(router)     // TODO: configure cors to allow only acceptable domains
 	err := http.ListenAndServe(":"+port, handler) //Launch the app, visit localhost:8989/api
 	if err != nil {
-		fmt.Print(err)
+		u.Log.Error(fmt.Sprint(err))
 	}
 }

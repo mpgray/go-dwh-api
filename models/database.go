@@ -2,6 +2,8 @@ package models
 
 import (
 	"fmt"
+
+	u "go-hoa-api/utils"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -16,7 +18,7 @@ func init() {
 
 	e := godotenv.Load()
 	if e != nil {
-		fmt.Print(e)
+		u.Log.Error(fmt.Sprint(e))
 	}
 
 	username := os.Getenv("db_user")
@@ -25,15 +27,16 @@ func init() {
 	dbHost := os.Getenv("db_host")
 
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
-	fmt.Println(dbURI)
+	u.Log.Info(dbURI)
 
 	conn, err := gorm.Open(postgres.Open(dbURI), &gorm.Config{})
 	if err != nil {
-		fmt.Print(err)
+		u.Log.Error(fmt.Sprint(err))
 	}
 
 	db = conn
 	db.Debug().AutoMigrate(&Account{}, &Contact{}, &FullName{}, &Address{}, &Phone{})
+
 }
 
 // GetDB creates the connection to our postgres database

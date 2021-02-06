@@ -1,0 +1,10 @@
+{"level":"info","ts":1612633484.864681,"caller":"go-hoa-api/main.go:32","msg":"8989"}
+2021-02-06T10:46:02.524-0700	INFO	go-hoa-api/main.go:32	8989
+{"level":"info","ts":1612637280.681153,"caller":"models/database.go:29","msg":"host=localhost user=postgres dbname=hoa sslmode=disable password=yarg3261"}
+{"level":"info","ts":1612637281.013761,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612639105.5170949,"caller":"models/database.go:29","msg":"host=localhost user=postgres dbname=hoa sslmode=disable password=yarg3261"}
+{"level":"info","ts":1612639105.838104,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612641335.943403,"caller":"models/database.go:29","msg":"host=localhost user=postgres dbname=hoa sslmode=disable password=yarg3261"}
+{"level":"info","ts":1612641336.236438,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612641815.205641,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa sslmode=disable password=yarg3261"}
+{"level":"info","ts":1612641815.487499,"caller":"go-hoa-api/main.go:33","msg":"8989"}
