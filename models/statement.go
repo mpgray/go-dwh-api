@@ -13,15 +13,15 @@ type Statement struct {
 	ID          uint
 	DueDate     time.Time  `json:"dueDate"`
 	Balance     float64    `json:"balance"`
-	Assessments Assessment `json:"assessment"`
-
-	PastDue float64 `json:"pastDue"`
-	//	Monthly     Monthly    `json:"monthlyStatement"  gorm:"foreignKey:OwnerID"`
+	Assessments Assessment `json:"assessment" gorm:"foreignKey:ID"`
+	PastDue     float64    `json:"pastDue"`
+	Monthly     Monthly    `json:"monthlyStatement"  gorm:"ID"`
 }
 
 // Assessment is different then a one time Charge as it is possible to be paid in installments.
 //
 type Assessment struct {
+	ID      uint
 	Name    string  `json:"name"`
 	Amount  float64 `json:"amount"`
 	Balance float64 `json:"balance"`

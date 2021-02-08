@@ -27,7 +27,7 @@ func init() {
 	dbHost := os.Getenv("db_host")
 
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
-	u.Log.Info(dbURI)
+	u.Log.Info(fmt.Sprintf("host=%s user=%s dbname=%s", dbHost, username, dbName))
 
 	conn, err := gorm.Open(postgres.Open(dbURI), &gorm.Config{})
 	if err != nil {
@@ -35,7 +35,7 @@ func init() {
 	}
 
 	db = conn
-	db.Debug().AutoMigrate(&Account{}, &Contact{}, &FullName{}, &Address{}, &Phone{})
+	db.Debug().AutoMigrate(&Account{}, &Contact{}, &FullName{}, &Address{}, &Phone{}, &Statement{}, &Account{})
 
 }
 

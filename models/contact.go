@@ -16,7 +16,7 @@ type Contact struct {
 	Address    Address   `json:"address" gorm:"foreignKey:OwnerID"`      // Mailing address
 	Properties []Address `json:"propertyAddresses" gorm:"foreignKey:ID"` // The properties owned by the owner
 	Phone      Phone     `json:"phone"  gorm:"foreignKey:OwnerID"`
-	//Statement  Statement `gorm:"foreignKey:OwnerID"`
+	Statement  Statement `gorm:"foreignKey:OwnerID"`
 }
 
 //FullName contains owners first middle and last name
@@ -62,7 +62,7 @@ const (
 	HOME
 	// WORK is Primary phone
 	WORK
-	// Other number is primary phone
+	// OTHER number is primary phone
 	OTHER
 )
 
