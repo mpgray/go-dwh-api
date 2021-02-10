@@ -18,6 +18,7 @@ type Statement struct {
 // Assessment is different then a one time Charge as it is possible to be paid in installments.
 //
 type Assessment struct {
+	gorm.Model
 	ID      uint
 	Name    string  `json:"name"`
 	Amount  float64 `json:"amount"`
