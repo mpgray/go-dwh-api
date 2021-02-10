@@ -13,7 +13,7 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/kr/text v0.2.0 // indirect
 	github.com/lib/pq v1.9.0 // indirect
-	github.com/natefinch/lumberjack v2.0.0+incompatible // indirect
+	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rs/cors v1.7.0
 	github.com/shopspring/decimal v1.2.0 // indirect
@@ -26,6 +26,7 @@ require (
 	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
 	golang.org/x/text v0.3.5 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
+	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 	gorm.io/driver/postgres v1.0.8

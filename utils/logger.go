@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"log"
 	"os"
 
 	"github.com/natefinch/lumberjack"
@@ -18,15 +17,10 @@ func init() {
 	encoder := getEncoder()
 	core := zapcore.NewCore(encoder, writerSyncer, zapcore.DebugLevel)
 
-	var err error
-
 	logger := zap.New(core, zap.AddCaller())
 	Log = logger.Sugar()
-	if Log != nil {
-		log.Fatalf("can't initialize zap logger: %v", err)
-	}
-	defer Log.Sync()
 
+	defer Log.Sync()
 }
 
 func getEncoder() zapcore.Encoder {
@@ -43,7 +37,7 @@ func getEncoder() zapcore.Encoder {
 
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder
-	return zapcore.NewConsoleEncoder(encoderConfig)
+	return zapcore.NewJSONEncoder(encoderConfig)
 }
 
 func getLogWriter() zapcore.WriteSyncer {

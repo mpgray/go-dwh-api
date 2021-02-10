@@ -30,7 +30,7 @@ func main() {
 		port = "8989" //localhost
 	}
 
-	u.Log.Info(port)
+	u.Log.Info("Connected on port " + port)
 
 	handler := cors.Default().Handler(router)     // TODO: configure cors to allow only acceptable domains
 	err := http.ListenAndServe(":"+port, handler) //Launch the app, visit localhost:8989/api

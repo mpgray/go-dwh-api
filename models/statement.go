@@ -3,6 +3,8 @@ package models
 import (
 	"fmt"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 // Statement of billing for the owner
