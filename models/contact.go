@@ -13,7 +13,7 @@ type Contact struct {
 	UserID     uint      `json:"userId"`    //The user that this contact belongs to
 	OwnerID    uint      `json:"accountId"` // The ID associated with this owner
 	Name       FullName  `json:"name" gorm:"foreignKey:OwnerID"`
-	Address    Address   `json:"address" gorm:"foreignKey:OwnerID"`      // Mailing address
+	Address    Address   `json:"address" gorm:"foreignKey:ID"`           // Mailing address
 	Properties []Address `json:"propertyAddresses" gorm:"foreignKey:ID"` // The properties owned by the owner
 	Phone      Phone     `json:"phone"  gorm:"foreignKey:OwnerID"`
 	Statement  Statement `gorm:"foreignKey:OwnerID"`
@@ -30,7 +30,6 @@ type FullName struct {
 
 //Address contains all of the address information
 type Address struct {
-	gorm.Model
 	ID    uint
 	Line1 string `json:"line1"`
 	Line2 string `json:"line2"`

@@ -3,19 +3,16 @@ package models
 import (
 	"fmt"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 // Statement of billing for the owner
 type Statement struct {
-	gorm.Model
-	ID          uint
+	OwnerID     uint
 	DueDate     time.Time  `json:"dueDate"`
 	Balance     float64    `json:"balance"`
-	Assessments Assessment `json:"assessment" gorm:"foreignKey:ID"`
+	Assessments Assessment `json:"assessment" gorm:"foreignKey:OwnerID"`
 	PastDue     float64    `json:"pastDue"`
-	Monthly     Monthly    `json:"monthlyStatement"  gorm:"ID"`
+	Monthly     Monthly    `json:"monthlyStatement"  gorm:"foreignKey:OwnerID"`
 }
 
 // Assessment is different then a one time Charge as it is possible to be paid in installments.
@@ -29,6 +26,7 @@ type Assessment struct {
 
 // Monthly is an archive of the last year of statements by month.
 type Monthly struct {
+	ID    uint
 	Month Month
 }
 

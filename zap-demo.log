@@ -8,3 +8,40 @@
 {"level":"info","ts":1612641336.236438,"caller":"go-hoa-api/main.go:33","msg":"8989"}
 {"level":"info","ts":1612641815.205641,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa sslmode=disable password=yarg3261"}
 {"level":"info","ts":1612641815.487499,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612847603.8457532,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"error","ts":1612847603.8498838,"caller":"models/database.go:34","msg":"failed to connect to `host=localhost user=postgres database=hoa`: dial error (dial tcp 127.0.0.1:5432: connect: connection refused)","stacktrace":"go-hoa-api/models.init.0\n\t/Users/michaelgray/Nextcloud/Programs/go-hoa-api/models/database.go:34\nruntime.doInit\n\t/usr/local/opt/go/libexec/src/runtime/proc.go:5414\nruntime.doInit\n\t/usr/local/opt/go/libexec/src/runtime/proc.go:5409\nruntime.doInit\n\t/usr/local/opt/go/libexec/src/runtime/proc.go:5409\nruntime.main\n\t/usr/local/opt/go/libexec/src/runtime/proc.go:190"}
+{"level":"info","ts":1612847603.8747468,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612847771.573937,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612847771.8438668,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612847868.6861892,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612847868.871476,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612847928.8671622,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612847929.062023,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612847966.3201752,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612847966.5729659,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612882558.235275,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612882558.54955,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612882588.6954648,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612882588.958943,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612882949.809145,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612882950.0377002,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612883137.6390269,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612883137.658283,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612883288.83585,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612883288.860676,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612883333.477765,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612883333.5450828,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612883384.088286,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612883384.234281,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612883459.8336651,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612883459.956641,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612883668.8135722,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612883668.9393039,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612883773.840839,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612883773.9613628,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612883940.737659,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612883940.8880708,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612883969.440085,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612883969.564227,"caller":"go-hoa-api/main.go:33","msg":"8989"}
+{"level":"info","ts":1612884016.332264,"caller":"models/database.go:30","msg":"host=localhost user=postgres dbname=hoa"}
+{"level":"info","ts":1612884016.462015,"caller":"go-hoa-api/main.go:33","msg":"8989"}
