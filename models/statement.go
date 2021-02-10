@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	u "go-hoa-api/utils"
 	"time"
 
 	"gorm.io/gorm"
@@ -59,6 +60,7 @@ func GetCurrentStatement(id uint) *Statement {
 	statement := &Statement{}
 	err := GetDB().Table("statements").Where("id = ?", id).First(statement).Error
 	if err != nil {
+		u.Log.Error(fmt.Sprint(err))
 		return nil
 	}
 	return statement
@@ -70,7 +72,7 @@ func GetStatementHistory(user uint) []*Statement {
 	statements := make([]*Statement, 0)
 	err := GetDB().Table("statements").Where("user_id = ?", user).Find(&statements).Error
 	if err != nil {
-		fmt.Println(err)
+		u.Log.Error(fmt.Sprint(err))
 		return nil
 	}
 

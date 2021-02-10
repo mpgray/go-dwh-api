@@ -32,9 +32,32 @@ func main() {
 
 	u.Log.Info("Connected on port " + port)
 
-	handler := cors.Default().Handler(router)     // TODO: configure cors to allow only acceptable domains
+	handler := corsConfig().Handler(router)
 	err := http.ListenAndServe(":"+port, handler) //Launch the app, visit localhost:8989/api
 	if err != nil {
-		u.Log.Error(fmt.Sprint(err))
+		u.Log.Fatal(fmt.Sprint(err))
 	}
+
+	defer u.Log.Infof("**Golang Backend API for Driveway Home Started Successfully**")
+}
+
+func corsConfig() *cors.Cors {
+	return cors.New(cors.Options{
+		AllowedOrigins: []string{
+			"https://localhost:8989",
+			"https://127.0.0.1:8989",
+			"http://localhost:8989",
+			"http://127.0.0.1:8989",
+		},
+		AllowedMethods: []string{
+			http.MethodHead,
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+		},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
+	})
 }

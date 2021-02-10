@@ -53,12 +53,14 @@ func (e *errorString) Error() string {
 func (account *Account) Validate() (map[string]interface{}, bool) {
 
 	if !e.IsValidEmail(account.Email) {
-		return u.Message(false, "Email address is required"), false
+		u.Log.Warnf("User tried to create an account with an invalid email: %s", account.Email)
+		return u.Message(false, "Email address is Invaild"), false
 	}
 
 	passwordValidator := p.Validator{p.MinLength(6, nil), p.MaxLength(40, nil), p.CommonPassword(nil)}
 	passwordMessage := passwordValidator.Validate(account.Password)
 	if passwordMessage != nil {
+		u.Log.Warn(passwordMessage.Error())
 		return u.Message(false, passwordMessage.Error()), false
 	}
 
@@ -68,9 +70,11 @@ func (account *Account) Validate() (map[string]interface{}, bool) {
 	//check for errors and duplicate emails
 	err := GetDB().Table("accounts").Where("email = ?", account.Email).First(temp).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
+		u.Log.Error("DB Connection Failed: While checking for duplicate emails")
 		return u.Message(false, "Connection error. Please retry"), false
 	}
 	if temp.Email != "" {
+		u.Log.Warnf("User tried to register with an email that already exists: %s", account.Email)
 		return u.Message(false, "Email address already in use by another user."), false
 	}
 
@@ -90,6 +94,7 @@ func (account *Account) Create() map[string]interface{} {
 	GetDB().Create(account)
 
 	if account.ID <= 0 {
+		u.Log.Error("DB Connection Failed: While creating account")
 		return u.Message(false, "Failed to create account, connection error.")
 	}
 
@@ -101,6 +106,7 @@ func (account *Account) Create() map[string]interface{} {
 
 	account.Password = "" //delete password
 
+	u.Log.Infof("New Account-- Email: %s Manager ID: %", account.Email)
 	response := u.Message(true, "Account has been created")
 	response["account"] = account
 	return response
@@ -113,13 +119,16 @@ func Login(email, password string) map[string]interface{} {
 	err := GetDB().Table("accounts").Where("email = ?", email).First(account).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
+			u.Log.Warn("Attempt to login resulted in email not found.")
 			return u.Message(false, "Email address not found")
 		}
+		u.Log.Error("DB Connection Failed: During login attempt")
 		return u.Message(false, "Connection error. Please retry")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(account.Password), []byte(password))
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword { //Password does not match!
+		u.Log.Warn("Attempt to login with invalid credentials: %s ")
 		return u.Message(false, "Invalid login credentials. Please try again")
 	}
 	//Worked! Logged In

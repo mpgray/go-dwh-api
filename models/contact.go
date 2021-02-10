@@ -1,5 +1,10 @@
 package models
 
+/* Contact Model
+This model contains all the profile information, including billing,
+of a contact. A contact is defined as either an association profile,
+an owner, or a tenent (non owner occupant)
+*/
 import (
 	"fmt"
 	u "go-hoa-api/utils"
