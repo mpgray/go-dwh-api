@@ -44,10 +44,10 @@ func main() {
 func corsConfig() *cors.Cors {
 	return cors.New(cors.Options{
 		AllowedOrigins: []string{
-			"https://localhost:8989",
-			"https://127.0.0.1:8989",
-			"http://localhost:8989",
-			"http://127.0.0.1:8989",
+			"https://localhost",
+			"https://127.0.0.1",
+			"http://localhost",
+			"http://127.0.0.1",
 		},
 		AllowedMethods: []string{
 			http.MethodHead,
