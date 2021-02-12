@@ -1,1 +1,4 @@
 .idea/
+main
+.env
+go-hoa-api.log

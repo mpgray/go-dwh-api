@@ -1,10 +1,15 @@
 package models
 
+/* Contact Model
+This model contains all the profile information, including billing,
+of a contact. A contact is defined as either an association profile,
+an owner, or a tenent (non owner occupant)
+*/
 import (
 	"fmt"
 	u "go-hoa-api/utils"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 // Contact gets the Name, phone and UserID of the contact
@@ -12,15 +17,17 @@ type Contact struct {
 	gorm.Model
 	UserID     uint      `json:"userId"`    //The user that this contact belongs to
 	OwnerID    uint      `json:"accountId"` // The ID associated with this owner
-	Name       FullName  `json:"name"`
-	Address    Address   `json:"address"`           // Mailing address
-	Properties []Address `json:"propertyAddresses"` // The properties owned by the owner
-	Phone      Phone     `json:"phone"`
+	Name       FullName  `json:"name" gorm:"foreignKey:OwnerID"`
+	Address    Address   `json:"address" gorm:"foreignKey:ContactID"`           // Mailing address
+	Properties []Address `json:"propertyAddresses" gorm:"foreignKey:ContactID"` // The properties owned by the owner
+	Phone      Phone     `json:"phone"  gorm:"foreignKey:OwnerID"`
 	Statement  Statement `gorm:"foreignKey:OwnerID"`
 }
 
 //FullName contains owners first middle and last name
 type FullName struct {
+	gorm.Model
+	ID     uint
 	First  string `json:"first"`
 	Middle string `json:"middle"`
 	Last   string `json:"last"`
@@ -28,17 +35,21 @@ type FullName struct {
 
 //Address contains all of the address information
 type Address struct {
-	Line1 string `json:"line1"`
-	Line2 string `json:"line2"`
-	Unit  string `json:"unit"`
-	City  string `json:"city"`
-	State string `json:"state"`
-	Zip   string `json:"zip"`
-	Zip4  string `json:"zip4"`
+	gorm.Model
+	ContactID uint
+	Line1     string `json:"line1"`
+	Line2     string `json:"line2"`
+	Unit      string `json:"unit"`
+	City      string `json:"city"`
+	State     string `json:"state"`
+	Zip       string `json:"zip"`
+	Zip4      string `json:"zip4"`
 }
 
 // Phone Contains different phone numbers of the home owner
 type Phone struct {
+	gorm.Model
+	ID      uint
 	Cell    string       `json:"cellPhone"`
 	Home    string       `json:"homePhone"`
 	Work    string       `json:"workPhone"`
@@ -56,27 +67,47 @@ const (
 	HOME
 	// WORK is Primary phone
 	WORK
-	// Other number is primary phone
+	// OTHER number is primary phone
+	OTHER
 )
 
 // Validate validates the required parameters sent through the http request body
 // returns message and true if the requirement is met
 func (contact *Contact) Validate() (map[string]interface{}, bool) {
+	message := "Missing required fields:\n"
+	isValid := true
 
 	if contact.Name.First == "" {
-		return u.Message(false, "Contact name should be on the payload"), false
+		message += "First Name\n"
+		isValid = false
+	}
+
+	if contact.Name.Last == "" {
+		message += "Last Name\n"
+		isValid = false
 	}
 
 	if contact.Phone.Cell == "" {
-		return u.Message(false, "Phone number should be on the payload"), false
+		message += "Cell Phone\n"
+		isValid = false
+	}
+
+	if contact.Address.Line1 == "" || contact.Address.City == "" || contact.Address.State == "" || contact.Address.Zip == "" {
+		message += "Address, City, State or Zip\n"
+		isValid = false
 	}
 
 	if contact.UserID <= 0 {
-		return u.Message(false, "User is not recognized"), false
+		message = "Unknow User" // if user isnt' know, no other data should display
+		isValid = false
 	}
 
-	//All the required parameters are present
-	return u.Message(true, "success"), true
+	if isValid {
+		message = "success"
+	}
+
+	//Shows what is missing and if successful, displays success message
+	return u.Message(isValid, message), isValid
 }
 
 // Create makes the contact
@@ -99,6 +130,7 @@ func GetContact(id uint) *Contact {
 	contact := &Contact{}
 	err := GetDB().Table("contacts").Where("id = ?", id).First(contact).Error
 	if err != nil {
+		u.Log.Error(fmt.Sprint(err))
 		return nil
 	}
 	return contact
@@ -108,9 +140,9 @@ func GetContact(id uint) *Contact {
 func GetContacts(user uint) []*Contact {
 
 	contacts := make([]*Contact, 0)
-	err := GetDB().Table("contacts").Where("user_id = ?", user).Find(&contacts).Error
+	err := GetDB().Table("contacts").Where("userId = ?", user).Find(&contacts).Error
 	if err != nil {
-		fmt.Println(err)
+		u.Log.Error(fmt.Sprint(err))
 		return nil
 	}
 

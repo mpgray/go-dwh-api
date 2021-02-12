@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"go-hoa-api/app"
 	"go-hoa-api/controllers"
+	u "go-hoa-api/utils"
 	"net/http"
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -28,10 +30,34 @@ func main() {
 		port = "8989" //localhost
 	}
 
-	fmt.Println(port)
+	u.Log.Info("Connected on port " + port)
 
-	err := http.ListenAndServe(":"+port, router) //Launch the app, visit localhost:8000/api
+	handler := corsConfig().Handler(router)
+	err := http.ListenAndServe(":"+port, handler) //Launch the app, visit localhost:8989/api
 	if err != nil {
-		fmt.Print(err)
+		u.Log.Fatal(fmt.Sprint(err))
 	}
+
+	defer u.Log.Infof("**Golang Backend API for Driveway Home Started Successfully**")
+}
+
+func corsConfig() *cors.Cors {
+	return cors.New(cors.Options{
+		AllowedOrigins: []string{
+			"https://localhost",
+			"https://127.0.0.1",
+			"http://localhost",
+			"http://127.0.0.1",
+		},
+		AllowedMethods: []string{
+			http.MethodHead,
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+		},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
+	})
 }

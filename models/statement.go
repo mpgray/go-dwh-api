@@ -2,40 +2,79 @@ package models
 
 import (
 	"fmt"
-
+	u "go-hoa-api/utils"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 // Statement of billing for the owner
 type Statement struct {
-	gorm.Model
-	DueDate time.Time `json:"dueDate"`
-	Owed    float64   `json:"owed"`
-	PastDue float64   `json:"pastDue"`
+	OwnerID     uint
+	DueDate     time.Time  `json:"dueDate"`
+	Balance     float64    `json:"balance"`
+	Assessments Assessment `json:"assessment" gorm:"foreignKey:OwnerID"`
+	PastDue     float64    `json:"pastDue"`
+	Monthly     Monthly    `json:"monthlyStatement"  gorm:"foreignKey:OwnerID"`
 }
 
-// GetCurrentStatement of the account number.
-func GetCurrentStatement(id uint) *Contact {
+// Assessment is different then a one time Charge as it is possible to be paid in installments.
+//
+type Assessment struct {
+	gorm.Model
+	ID      uint
+	Name    string  `json:"name"`
+	Amount  float64 `json:"amount"`
+	Balance float64 `json:"balance"`
+}
 
-	contact := &Contact{}
-	err := GetDB().Table("contacts").Where("id = ?", id).First(contact).Error
+// Monthly is an archive of the last year of statements by month.
+type Monthly struct {
+	ID    uint
+	Month Month
+}
+
+// Month is  an enum with 0 current month and actual months
+type Month uint8
+
+//Enum of months with current month being 0
+const (
+	CURRENT Month = iota
+	JANUARY
+	FEBRUARY
+	MARCH
+	APRIL
+	MAY
+	JUNE
+	JULY
+	AUGUST
+	SEPTEMBER
+	OCTOBER
+	NOVEMBER
+	DECEMBER
+)
+
+// GetCurrentStatement of the account number.
+func GetCurrentStatement(id uint) *Statement {
+
+	statement := &Statement{}
+	err := GetDB().Table("statements").Where("id = ?", id).First(statement).Error
 	if err != nil {
+		u.Log.Error(fmt.Sprint(err))
 		return nil
 	}
-	return contact
+	return statement
 }
 
 // GetStatementHistory of the account number for the past year.
-func GetStatementHistory(user uint) []*Contact {
+func GetStatementHistory(user uint) []*Statement {
 
-	contacts := make([]*Contact, 0)
-	err := GetDB().Table("contacts").Where("user_id = ?", user).Find(&contacts).Error
+	statements := make([]*Statement, 0)
+	err := GetDB().Table("statements").Where("user_id = ?", user).Find(&statements).Error
 	if err != nil {
-		fmt.Println(err)
+		u.Log.Error(fmt.Sprint(err))
 		return nil
 	}
 
-	return contacts
+	return statements
 }
