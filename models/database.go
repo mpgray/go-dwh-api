@@ -18,15 +18,16 @@ func init() {
 
 	e := godotenv.Load()
 	if e != nil {
-		u.Log.Error(fmt.Sprint(e))
+		u.Log.Warn(fmt.Sprint(e))
 	}
 
 	username := os.Getenv("db_user")
 	password := os.Getenv("db_pass")
 	dbName := os.Getenv("db_name")
 	dbHost := os.Getenv("db_host")
+	ssl_mode := os.Getenv("db_ssl_mode")
 
-	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
+	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=%s password=%s", dbHost, username, dbName, ssl_mode, password)
 	u.Log.Infof("Conntecting to DB: host=%s user=%s dbname=%s", dbHost, username, dbName)
 
 	conn, err := gorm.Open(postgres.Open(dbURI), &gorm.Config{})
