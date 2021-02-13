@@ -3,7 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
-	"go-hoa-api/models"
+	"go-dwh-api/models"
 	"net/http"
 	"os"
 	"strings"

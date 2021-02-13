@@ -7,7 +7,7 @@ an owner, or a tenent (non owner occupant)
 */
 import (
 	"fmt"
-	u "go-hoa-api/utils"
+	u "go-dwh-api/utils"
 
 	"gorm.io/gorm"
 )

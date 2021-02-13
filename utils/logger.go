@@ -42,7 +42,7 @@ func getEncoder() zapcore.Encoder {
 
 func getLogWriter() zapcore.WriteSyncer {
 	lumberJackLogger := &lumberjack.Logger{
-		Filename:   "./go-hoa-api.log",
+		Filename:   "./go-dwh-api.log",
 		MaxSize:    50,
 		MaxBackups: 12,
 		MaxAge:     30,
