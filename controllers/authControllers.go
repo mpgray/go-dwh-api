@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
-	"go-hoa-api/models"
-	u "go-hoa-api/utils"
+	"go-dwh-api/models"
+	u "go-dwh-api/utils"
 	"net/http"
 )
 

@@ -1,7 +1,7 @@
 package app
 
 import (
-	u "go-hoa-api/utils"
+	u "go-dwh-api/utils"
 	"net/http"
 )
 

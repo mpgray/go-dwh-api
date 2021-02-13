@@ -1,7 +1,7 @@
 package models
 
 import (
-	u "go-hoa-api/utils"
+	u "go-dwh-api/utils"
 	"os"
 
 	e "github.com/dchest/validator" //email validation

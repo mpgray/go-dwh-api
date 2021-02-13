@@ -1,4 +1,4 @@
-module go-hoa-api
+module go-dwh-api
 
 go 1.15
 

@@ -2,7 +2,7 @@ package models
 
 import (
 	"fmt"
-	u "go-hoa-api/utils"
+	u "go-dwh-api/utils"
 	"time"
 
 	"gorm.io/gorm"

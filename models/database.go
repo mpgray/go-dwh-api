@@ -3,12 +3,13 @@ package models
 import (
 	"fmt"
 
-	u "go-hoa-api/utils"
+	u "go-dwh-api/utils"
 	"os"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
-	_ "gorm.io/driver/postgres" // this is a _ 'blank' import because it is needed to load the drivers
+
+	//_ "gorm.io/driver/postgres" // this is a _ 'blank' import because it is needed to load the drivers
 	"gorm.io/gorm"
 )
 
@@ -29,7 +30,7 @@ func init() {
 	ssl_mode := os.Getenv("db_ssl_mode")
 
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s port=%s sslmode=%s password=%s", dbHost, username, dbName, dbPort, ssl_mode, password)
-	u.Log.Infof("Conntecting to DB... host=%s user=%s dbname=%s sslmode=%s password=%s", dbHost, username, dbName)
+	u.Log.Infof("Conntecting to DB... host=%s user=%s dbname=%s port=%s sslmode=%s password=%s", dbHost, username, dbName, dbPort, ssl_mode, password)
 
 	conn, err := gorm.Open(postgres.Open(dbURI), &gorm.Config{})
 	if err != nil {
