@@ -10,12 +10,12 @@ import (
 
 // Statement of billing for the owner
 type Statement struct {
-	OwnerID     uint
+	ContactID   uint
 	DueDate     time.Time  `json:"dueDate"`
 	Balance     float64    `json:"balance"`
-	Assessments Assessment `json:"assessment" gorm:"foreignKey:OwnerID"`
+	Assessments Assessment `json:"assessment" gorm:"foreignKey:ContactID"`
 	PastDue     float64    `json:"pastDue"`
-	Monthly     Monthly    `json:"monthlyStatement"  gorm:"foreignKey:OwnerID"`
+	Monthly     Monthly    `json:"monthlyStatement"  gorm:"foreignKey:ContactID"`
 }
 
 // Assessment is different then a one time Charge as it is possible to be paid in installments.

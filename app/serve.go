@@ -1,9 +1,7 @@
 package app
 
 import (
-	"fmt"
 	"go-dwh-api/controllers"
-	u "go-dwh-api/utils"
 	"net/http"
 	"os"
 
@@ -11,51 +9,43 @@ import (
 	"github.com/rs/cors"
 )
 
+// Full path is /api/v1/{const}
 const (
-	NEW_ACCOUNT  = "/account/new"
-	LOGIN        = "/account/login"
-	NEW_CONTACT  = "/contact/new"
-	GET_CONTACTS = "/me/contacts"
+	newAccount  = "/account/new"
+	login       = "/account/login"
+	newContact  = "/contact/new"
+	getContacts = "/me/contacts"
 )
 
 var router *mux.Router
 
-func Serve() {
+// Serve creates and serves the server
+func Serve() *mux.Router {
 	router = mux.NewRouter()
 
 	apiPath := os.Getenv("api_path")
 
-	router.HandleFunc(apiPath+NEW_ACCOUNT, controllers.CreateAccount).Methods(http.MethodPost)
-	router.HandleFunc(apiPath+LOGIN, controllers.Authenticate).Methods(http.MethodPost)
-	router.HandleFunc(apiPath+NEW_CONTACT, controllers.CreateContact).Methods(http.MethodPost)
-	router.HandleFunc(apiPath+GET_CONTACTS, controllers.GetContactsFor).Methods(http.MethodGet) //  user/2/contacts
+	router.HandleFunc(apiPath+newAccount, controllers.CreateAccount).Methods(http.MethodPost)
+	router.HandleFunc(apiPath+login, controllers.Authenticate).Methods(http.MethodPost)
+	router.HandleFunc(apiPath+newContact, controllers.CreateContact).Methods(http.MethodPost)
+	router.HandleFunc(apiPath+getContacts, controllers.GetContactsFor).Methods(http.MethodGet) //  user/2/contacts
 
 	router.Use(JwtAuthentication) //attach JWT auth middleware
 
 	//router.NotFoundHandler = app.NotFoundHandler
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8989" //localhost
-	}
-
-	u.Log.Info("Connected on port " + port)
-
-	handler := corsConfig().Handler(router)
-	err := http.ListenAndServe(":"+port, handler) //Launch the app, visit localhost:8989/api
-	if err != nil {
-		u.Log.Fatal(fmt.Sprint(err))
-	}
-
+	return router
 }
 
-func corsConfig() *cors.Cors {
+func CorsConfig() *cors.Cors {
 	return cors.New(cors.Options{
 		AllowedOrigins: []string{
 			"https://localhost",
 			"https://127.0.0.1",
 			"http://localhost",
 			"http://127.0.0.1",
+			"https://localhost:4200",
+			"http://localhost:4200",
 		},
 		AllowedMethods: []string{
 			http.MethodHead,

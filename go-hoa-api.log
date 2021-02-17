@@ -1,9 +1,0 @@
-{"level":"INFO","ts":"2021-02-11T17:51:45.335-0700","caller":"models/database.go:30","msg":"Conntecting to DB: host=localhost user=postgres dbname=hoa"}
-{"level":"ERROR","ts":"2021-02-11T17:51:45.339-0700","caller":"models/database.go:34","msg":"failed to connect to `host=localhost user=postgres database=hoa`: dial error (dial tcp 127.0.0.1:5432: connect: connection refused)"}
-{"level":"INFO","ts":"2021-02-11T17:51:45.341-0700","caller":"go-dwh-api/main.go:33","msg":"Connected on port 8989"}
-{"level":"INFO","ts":"2021-02-12T20:42:42.860-0700","caller":"models/database.go:31","msg":"Conntecting to DB: host=localhost user=postgres dbname=hoa"}
-{"level":"ERROR","ts":"2021-02-12T20:42:42.863-0700","caller":"models/database.go:35","msg":"cannot parse `host=localhost user=postgres dbname=hoa sslmode=required password=xxxxx`: failed to configure TLS (sslmode is invalid)"}
-{"level":"INFO","ts":"2021-02-12T20:44:25.592-0700","caller":"models/database.go:31","msg":"Conntecting to DB: host=localhost user=postgres dbname=hoa"}
-{"level":"INFO","ts":"2021-02-12T20:44:26.152-0700","caller":"go-dwh-api/main.go:33","msg":"Connected on port 8989"}
-{"level":"INFO","ts":"2021-02-13T14:00:44.660-0700","caller":"models/database.go:33","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
-{"level":"INFO","ts":"2021-02-13T14:00:45.020-0700","caller":"app/serve.go:42","msg":"Connected on port 8989"}

@@ -3,6 +3,7 @@ package models
 import (
 	u "go-dwh-api/utils"
 	"os"
+	"time"
 
 	e "github.com/dchest/validator" //email validation
 	"github.com/dgrijalva/jwt-go"
@@ -20,12 +21,13 @@ type Token struct {
 //Account is used to login the user with their email and password using tokens from jwt
 type Account struct {
 	gorm.Model
-	Email     string   `json:"email"`
-	Password  string   `json:"password"`
-	UserType  UserType `json:"userType"`
-	ManagerID *uint
-	Owners    []Account `gorm:"foreignkey:ManagerID"`
-	Token     string    `json:"token" sql:"-"`
+	Email        string   `json:"email"`
+	Password     string   `json:"password"`
+	UserType     UserType `json:"userType"`
+	ManagerID    *uint
+	Owners       []Account `gorm:"foreignkey:ManagerID"`
+	Token        string    `json:"jwtToken"`
+	RefreshToken string    `json:"refreshToken" sql:"-"`
 }
 
 // UserType represents what the use could be. Home Owner, manager, SuperUser
@@ -98,18 +100,26 @@ func (account *Account) Create() map[string]interface{} {
 		return u.Message(false, "Failed to create account, connection error.")
 	}
 
-	//Create new JWT token for the newly registered account
-	tk := &Token{UserID: account.ID}
-	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
-	tokenString, _ := token.SignedString([]byte(os.Getenv("token_password")))
-	account.Token = tokenString
-
+	account.Token = createToken(account)
 	account.Password = "" //delete password
 
 	u.Log.Infof("New Account-- Email: %s Manager ID: %", account.Email)
 	response := u.Message(true, "Account has been created")
 	response["account"] = account
 	return response
+}
+
+func createToken(account *Account) string {
+	//Create new JWT token for the newly registered account
+
+	atClaims := jwt.MapClaims{}
+	atClaims["authorized"] = true
+	atClaims["user_id"] = &Token{UserID: account.ID}
+	atClaims["exp"] = time.Now().Add(time.Minute * 15).Unix()
+	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
+	token, _ := at.SignedString([]byte(os.Getenv("token_password")))
+
+	return token
 }
 
 // Login to the account using bcrypt and JWT

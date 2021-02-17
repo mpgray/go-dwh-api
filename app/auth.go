@@ -14,11 +14,12 @@ import (
 // JwtAuthentication resolves if the token is valid, exists and matches.
 // If it does not, it returns a 403 error.
 var JwtAuthentication = func(next http.Handler) http.Handler {
+	apiPath := os.Getenv("api_path")
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		notAuth := []string{"/v1/user/new", "/v1/user/login"} //List of endpoints that doesn't require auth
-		requestPath := r.URL.Path                             //current request path
+		notAuth := []string{apiPath + "/account/new", apiPath + "/account/login"} //List of endpoints that doesn't require auth
+		requestPath := r.URL.Path                                                 //current request path
 
 		//check if request does not need authentication, serve the request if it doesn't need it
 		for _, value := range notAuth {

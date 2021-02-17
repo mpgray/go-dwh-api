@@ -15,22 +15,21 @@ import (
 // Contact gets the Name, phone and UserID of the contact
 type Contact struct {
 	gorm.Model
-	UserID     uint      `json:"userId"`    //The user that this contact belongs to
-	OwnerID    uint      `json:"accountId"` // The ID associated with this owner
-	Name       FullName  `json:"name" gorm:"foreignKey:OwnerID"`
-	Address    Address   `json:"address" gorm:"foreignKey:ContactID"`           // Mailing address
-	Properties []Address `json:"propertyAddresses" gorm:"foreignKey:ContactID"` // The properties owned by the owner
-	Phone      Phone     `json:"phone"  gorm:"foreignKey:OwnerID"`
-	Statement  Statement `gorm:"foreignKey:OwnerID"`
+	UserID  uint     `json:"userId"` //The user that this contact belongs to
+	Name    FullName `gorm:"foreignkey:ContactID"`
+	Address Address  `gorm:"foreignkey:ContactID"` // Mailing address
+	//Properties []Address `json:"propertyAddresses" gorm:"foreignKey:ID"` // The properties owned by the owner
+	Phone     Phone     `gorm:"foreignkey:ContactID"`
+	Statement Statement `gorm:"foreignkey:ContactID"`
 }
 
 //FullName contains owners first middle and last name
 type FullName struct {
 	gorm.Model
-	ID     uint
-	First  string `json:"first"`
-	Middle string `json:"middle"`
-	Last   string `json:"last"`
+	ContactID uint
+	First     string `json:"first"`
+	Middle    string `json:"middle"`
+	Last      string `json:"last"`
 }
 
 //Address contains all of the address information
@@ -49,12 +48,12 @@ type Address struct {
 // Phone Contains different phone numbers of the home owner
 type Phone struct {
 	gorm.Model
-	ID      uint
-	Cell    string       `json:"cellPhone"`
-	Home    string       `json:"homePhone"`
-	Work    string       `json:"workPhone"`
-	Other   string       `json:"otherPhone"`
-	Primary PrimaryPhone `json:"primaryPhone"`
+	ContactID uint
+	Cell      string       `json:"cellPhone"`
+	Home      string       `json:"homePhone"`
+	Work      string       `json:"workPhone"`
+	Other     string       `json:"otherPhone"`
+	Primary   PrimaryPhone `json:"primaryPhone"`
 }
 
 // PrimaryPhone is an enum to determain primary phone contact
@@ -140,9 +139,10 @@ func GetContact(id uint) *Contact {
 func GetContacts(user uint) []*Contact {
 
 	contacts := make([]*Contact, 0)
-	err := GetDB().Table("contacts").Where("userId = ?", user).Find(&contacts).Error
+
+	err := GetDB().Model(&contacts).Association("Phone").Find(&phone, user).Error
 	if err != nil {
-		u.Log.Error(fmt.Sprint(err))
+		u.Log.Error(err)
 		return nil
 	}
 
