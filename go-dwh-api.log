@@ -1,0 +1,2 @@
+{"level":"INFO","ts":"2021-02-13T14:15:54.473-0700","caller":"models/database.go:33","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-13T14:15:55.001-0700","caller":"app/serve.go:42","msg":"Connected on port 8989"}
