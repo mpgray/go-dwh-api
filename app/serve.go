@@ -14,6 +14,7 @@ const (
 	newAccount  = "/account/new"
 	login       = "/account/login"
 	newContact  = "/contact/new"
+	getContact  = "/me/contact"
 	getContacts = "/me/contacts"
 )
 
@@ -28,6 +29,7 @@ func Serve() *mux.Router {
 	router.HandleFunc(apiPath+newAccount, controllers.CreateAccount).Methods(http.MethodPost)
 	router.HandleFunc(apiPath+login, controllers.Authenticate).Methods(http.MethodPost)
 	router.HandleFunc(apiPath+newContact, controllers.CreateContact).Methods(http.MethodPost)
+	router.HandleFunc(apiPath+getContact, controllers.GetContact).Methods(http.MethodPost)
 	router.HandleFunc(apiPath+getContacts, controllers.GetContactsFor).Methods(http.MethodGet) //  user/2/contacts
 
 	router.Use(JwtAuthentication) //attach JWT auth middleware

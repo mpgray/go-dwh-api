@@ -25,11 +25,29 @@ var CreateContact = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, resp)
 }
 
-// GetContactsFor gets all the contacts associated with
+// GetContact Gets all the contact information for a single user.
+var GetContact = func(w http.ResponseWriter, r *http.Request) {
+	contactID := &models.Contact{}
+
+	err := json.NewDecoder(r.Body).Decode(contactID)
+	if err != nil {
+		u.Log.Error("Invalid JSON data recieved when getting a contact.")
+		u.Respond(w, u.Message(false, "Error while decoding request body"))
+		return
+	}
+
+	userID := r.Context().Value("user").(uint)
+	data := models.GetContact(contactID.ID, userID)
+	resp := u.Message(true, "success")
+	resp["data"] = data
+	u.Respond(w, resp)
+}
+
+// GetContactsFor gets all the contacts associated with an owner
 var GetContactsFor = func(w http.ResponseWriter, r *http.Request) {
 
-	id := r.Context().Value("user").(uint)
-	data := models.GetContacts(id)
+	userID := r.Context().Value("user").(uint)
+	data := models.GetContacts(userID)
 	resp := u.Message(true, "success")
 	resp["data"] = data
 	u.Respond(w, resp)

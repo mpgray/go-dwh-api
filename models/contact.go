@@ -124,10 +124,10 @@ func (contact *Contact) Create() map[string]interface{} {
 }
 
 // GetContact by id
-func GetContact(id uint) *Contact {
-
+func GetContact(contactID uint, user uint) *Contact {
 	contact := &Contact{}
-	err := GetDB().Table("contacts").Where("id = ?", id).First(contact).Error
+
+	err := GetDB().Where("user_id = ? and ID = ?", user, contactID).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Preload("Statement").First(contact).Error
 	if err != nil {
 		u.Log.Error(fmt.Sprint(err))
 		return nil
@@ -140,10 +140,9 @@ func GetContacts(user uint) []*Contact {
 
 	contacts := make([]*Contact, 0)
 
-	err := GetDB().Model(&contacts).Association("Phone").Find(&phone, user).Error
+	err := GetDB().Where("user_id = ?", user).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Preload("Statement").Find(&contacts).Error
 	if err != nil {
 		u.Log.Error(err)
-		return nil
 	}
 
 	return contacts

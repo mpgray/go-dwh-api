@@ -8,6 +8,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
+	"gorm.io/gorm/logger"
 
 	//_ "gorm.io/driver/postgres" // this is a _ 'blank' import because it is needed to load the drivers
 	"gorm.io/gorm"
@@ -32,13 +33,15 @@ func init() {
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s port=%s sslmode=%s password=%s", dbHost, username, dbName, dbPort, sslMode, password)
 	u.Log.Infof("Conntecting to DB... host=%s user=%s dbname=%s port=%s sslmode=%s password=%s", dbHost, username, dbName, dbPort, sslMode, password)
 
-	conn, err := gorm.Open(postgres.Open(dbURI), &gorm.Config{})
+	conn, err := gorm.Open(postgres.Open(dbURI), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
 		u.Log.Error(fmt.Sprint(err))
 	}
 
 	db = conn
-	db.Debug().AutoMigrate(&Account{}, &Contact{}, &FullName{}, &Address{}, &Phone{}, &Statement{}, &Account{})
+	db.AutoMigrate(&Account{}, &Contact{}, &FullName{}, &Address{}, &Phone{}, &Statement{}, &Account{})
 
 }
 
