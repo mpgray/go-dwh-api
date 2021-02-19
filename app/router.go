@@ -10,6 +10,7 @@ import (
 )
 
 // Full path is /api/v1/{const}
+// or more accuratly {.env api_path}{const}
 const (
 	newAccount  = "/account/new"
 	login       = "/account/login"
@@ -20,8 +21,8 @@ const (
 
 var router *mux.Router
 
-// Serve creates and serves the server
-func Serve() *mux.Router {
+// Router creates and serves the server
+func Router() *mux.Router {
 	router = mux.NewRouter()
 
 	apiPath := os.Getenv("api_path")

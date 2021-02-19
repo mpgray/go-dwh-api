@@ -18,7 +18,7 @@ func main() {
 
 	u.Log.Info("Connected on port " + port)
 
-	router := app.Serve()
+	router := app.Router()
 	handler := app.CorsConfig().Handler(router)
 	err := http.ListenAndServe(":"+port, handler) //Launch the app, visit localhost:8989/api
 	if err != nil {
