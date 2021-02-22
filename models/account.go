@@ -1,33 +1,23 @@
 package models
 
 import (
+	"go-dwh-api/app"
 	u "go-dwh-api/utils"
-	"os"
-	"time"
 
-	e "github.com/dchest/validator" //email validation
-	"github.com/dgrijalva/jwt-go"
-	p "github.com/go-passwd/validator" // password validation
+	e "github.com/dchest/validator"
+	p "github.com/go-passwd/validator"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
-// Token is a struct which gets the jwt for our claim.
-type Token struct {
-	UserID uint
-	jwt.StandardClaims
-}
-
 //Account is used to login the user with their email and password using tokens from jwt
 type Account struct {
 	gorm.Model
-	Email        string   `json:"email"`
-	Password     string   `json:"password"`
-	UserType     UserType `json:"userType"`
-	ManagerID    *uint
-	Owners       []Account `gorm:"foreignkey:ManagerID"`
-	Token        string    `json:"jwtToken"`
-	RefreshToken string    `json:"refreshToken" sql:"-"`
+	Email     string   `json:"email"`
+	Password  string   `json:"password"`
+	UserType  UserType `json:"userType"`
+	ManagerID *uint
+	Owners    []Account `gorm:"foreignkey:ManagerID"`
 }
 
 // UserType represents what the use could be. Home Owner, manager, SuperUser
@@ -52,62 +42,63 @@ func (e *errorString) Error() string {
 }
 
 //Validate incoming user details...
-func (account *Account) Validate() (map[string]interface{}, bool) {
+func (user *User) validate() (map[string]interface{}, bool) {
 
-	if !e.IsValidEmail(account.Email) {
-		u.Log.Warnf("User tried to create an account with an invalid email: %s", account.Email)
+	if !e.IsValidEmail(user.Email) {
+		u.Log.Warnf("User tried to create an account with an invalid email: %s", user.Email)
 		return u.Message(false, "Email address is Invaild"), false
 	}
 
 	passwordValidator := p.Validator{p.MinLength(6, nil), p.MaxLength(40, nil), p.CommonPassword(nil)}
-	passwordMessage := passwordValidator.Validate(account.Password)
+	passwordMessage := passwordValidator.Validate(user.Password)
 	if passwordMessage != nil {
 		u.Log.Warn(passwordMessage.Error())
 		return u.Message(false, passwordMessage.Error()), false
 	}
 
 	//Email must be unique
-	temp := &Account{}
+	temp := &User{}
 
 	//check for errors and duplicate emails
-	err := GetDB().Table("accounts").Where("email = ?", account.Email).First(temp).Error
+	err := app.GetDB().Table("users").Where("email = ?", user.Email).First(temp).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		u.Log.Error("DB Connection Failed: While checking for duplicate emails")
 		return u.Message(false, "Connection error. Please retry"), false
 	}
 	if temp.Email != "" {
-		u.Log.Warnf("User tried to register with an email that already exists: %s", account.Email)
+		u.Log.Warnf("User tried to register with an email that already exists: %s", user.Email)
 		return u.Message(false, "Email address already in use by another user."), false
 	}
 
 	return u.Message(false, "Requirement passed"), true
 }
 
-// Create the user's account
-func (account *Account) Create() map[string]interface{} {
+// CreateUser the user's account
+func (user *User) CreateUser() map[string]interface{} {
 
-	if resp, ok := account.Validate(); !ok {
+	if resp, ok := user.validate(); !ok {
 		return resp
 	}
 
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(account.Password), bcrypt.DefaultCost)
-	account.Password = string(hashedPassword)
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	user.Password = string(hashedPassword)
 
-	GetDB().Create(account)
+	app.GetDB().Create(user)
 
-	if account.ID <= 0 {
+	if user.ID <= 0 {
 		u.Log.Error("DB Connection Failed: While creating account")
 		return u.Message(false, "Failed to create account, connection error.")
 	}
 
-	account.Token = createToken(account)
-	account.Password = "" //delete password
+	user.Password = "" //delete password
 
-	u.Log.Infof("New Account-- Email: %s Manager ID: %", account.Email)
+	u.Log.Infof("New Account-- Email: %s", user.Email)
 	response := u.Message(true, "Account has been created")
-	response["account"] = account
+	response["user"] = user
 	return response
 }
+
+/*
 
 func createToken(account *Account) string {
 	//Create new JWT token for the newly registered account
@@ -126,7 +117,7 @@ func createToken(account *Account) string {
 func Login(email, password string) map[string]interface{} {
 
 	account := &Account{}
-	err := GetDB().Table("accounts").Where("email = ?", email).First(account).Error
+	err := app.GetDB().Table("accounts").Where("email = ?", email).First(account).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			u.Log.Warn("Attempt to login resulted in email not found.")
@@ -153,13 +144,13 @@ func Login(email, password string) map[string]interface{} {
 	resp := u.Message(true, "Logged In")
 	resp["account"] = account
 	return resp
-}
+} */
 
 // GetUser returns nil when user not found in the database and the information it does
 func GetUser(u uint) *Account {
 
 	acc := &Account{}
-	GetDB().Table("accounts").Where("id = ?", u).First(acc)
+	app.GetDB().Table("accounts").Where("id = ?", u).First(acc)
 	if acc.Email == "" { //User not found!
 		return nil
 	}

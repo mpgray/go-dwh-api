@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"go-dwh-api/app"
 	u "go-dwh-api/utils"
 	"time"
 
@@ -58,7 +59,7 @@ const (
 func GetCurrentStatement(id uint) *Statement {
 
 	statement := &Statement{}
-	err := GetDB().Table("statements").Where("id = ?", id).First(statement).Error
+	err := app.GetDB().Table("statements").Where("id = ?", id).First(statement).Error
 	if err != nil {
 		u.Log.Error(fmt.Sprint(err))
 		return nil
@@ -70,7 +71,7 @@ func GetCurrentStatement(id uint) *Statement {
 func GetStatementHistory(user uint) []*Statement {
 
 	statements := make([]*Statement, 0)
-	err := GetDB().Table("statements").Where("user_id = ?", user).Find(&statements).Error
+	err := app.GetDB().Table("statements").Where("user_id = ?", user).Find(&statements).Error
 	if err != nil {
 		u.Log.Error(fmt.Sprint(err))
 		return nil

@@ -246,3 +246,84 @@
 {"level":"INFO","ts":"2021-02-17T20:19:47.582-0700","caller":"go-dwh-api/main.go:19","msg":"Connected on port 8989"}
 {"level":"INFO","ts":"2021-02-17T20:21:28.512-0700","caller":"models/database.go:34","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
 {"level":"INFO","ts":"2021-02-17T20:21:28.729-0700","caller":"go-dwh-api/main.go:19","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-19T22:17:03.155-0700","caller":"models/database.go:34","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-19T22:23:08.496-0700","caller":"models/database.go:34","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-19T22:30:26.226-0700","caller":"models/database.go:34","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-19T22:30:26.485-0700","caller":"go-dwh-api/main.go:19","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-20T12:39:56.935-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T12:39:57.284-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-20T13:43:29.609-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T13:43:29.874-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-20T15:30:53.612-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T15:30:53.934-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-20T15:32:49.954-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T15:32:50.284-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"WARN","ts":"2021-02-20T15:34:05.092-0700","caller":"models/account.go:69","msg":"User tried to register with an email that already exists: tested@mgray.me"}
+{"level":"INFO","ts":"2021-02-20T15:34:28.476-0700","caller":"models/account.go:95","msg":"New Account-- Email: penis@mgray.me"}
+{"level":"INFO","ts":"2021-02-20T16:09:37.340-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T16:09:37.648-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"ERROR","ts":"2021-02-20T16:09:45.840-0700","caller":"controllers/authentication.go:36","msg":"DB Connection Failed: During login attempt"}
+{"level":"INFO","ts":"2021-02-20T16:14:06.312-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T16:14:06.615-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-20T16:18:30.429-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T16:18:30.714-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-20T16:25:26.054-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T16:25:26.351-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"WARN","ts":"2021-02-20T16:42:08.760-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"INFO","ts":"2021-02-20T16:42:29.621-0700","caller":"models/account.go:95","msg":"New Account-- Email: penis@mgray.me"}
+{"level":"INFO","ts":"2021-02-20T16:42:32.155-0700","caller":"models/account.go:95","msg":"New Account-- Email: penis@mgray.me"}
+{"level":"INFO","ts":"2021-02-20T16:42:32.992-0700","caller":"models/account.go:95","msg":"New Account-- Email: penis@mgray.me"}
+{"level":"INFO","ts":"2021-02-20T16:42:33.740-0700","caller":"models/account.go:95","msg":"New Account-- Email: penis@mgray.me"}
+{"level":"INFO","ts":"2021-02-20T16:42:34.692-0700","caller":"models/account.go:95","msg":"New Account-- Email: penis@mgray.me"}
+{"level":"INFO","ts":"2021-02-20T16:50:28.511-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T16:50:28.810-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"WARN","ts":"2021-02-20T16:50:42.684-0700","caller":"models/account.go:69","msg":"User tried to register with an email that already exists: penis@mgray.me"}
+{"level":"WARN","ts":"2021-02-20T16:50:58.894-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"INFO","ts":"2021-02-20T17:02:18.345-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T17:02:18.671-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"WARN","ts":"2021-02-20T17:02:33.442-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"WARN","ts":"2021-02-20T17:02:49.105-0700","caller":"controllers/authentication.go:47","msg":"Attempt to login with invalid credentials: %s "}
+{"level":"WARN","ts":"2021-02-20T17:02:50.225-0700","caller":"controllers/authentication.go:47","msg":"Attempt to login with invalid credentials: %s "}
+{"level":"WARN","ts":"2021-02-20T17:02:51.178-0700","caller":"controllers/authentication.go:47","msg":"Attempt to login with invalid credentials: %s "}
+{"level":"INFO","ts":"2021-02-20T17:10:37.299-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T17:10:37.594-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"WARN","ts":"2021-02-20T17:10:44.655-0700","caller":"controllers/authentication.go:48","msg":"Attempt to login with invalid credentials: %s "}
+{"level":"INFO","ts":"2021-02-20T17:18:11.652-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T17:18:11.938-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"WARN","ts":"2021-02-20T17:18:19.668-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"INFO","ts":"2021-02-20T17:39:06.483-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T17:39:06.793-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"FATAL","ts":"2021-02-20T17:39:06.793-0700","caller":"go-dwh-api/main.go:30","msg":"listen tcp :8989: bind: address already in use"}
+{"level":"INFO","ts":"2021-02-20T17:49:43.793-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T17:50:26.452-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T17:50:26.904-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-20T17:51:06.051-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T17:51:06.342-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"WARN","ts":"2021-02-20T18:05:11.213-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"WARN","ts":"2021-02-20T18:05:44.223-0700","caller":"controllers/authentication.go:43","msg":"Attempt to login with invalid credentials: %s crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"level":"WARN","ts":"2021-02-20T18:30:57.302-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"WARN","ts":"2021-02-20T19:50:34.415-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"WARN","ts":"2021-02-20T19:50:57.266-0700","caller":"controllers/authentication.go:43","msg":"Attempt to login with invalid credentials: %s crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"level":"WARN","ts":"2021-02-20T19:55:11.731-0700","caller":"controllers/authentication.go:43","msg":"Attempt to login with invalid credentials: %s crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"level":"INFO","ts":"2021-02-20T20:00:02.853-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-20T20:00:03.130-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"WARN","ts":"2021-02-20T21:35:37.227-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"WARN","ts":"2021-02-21T10:26:18.716-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"WARN","ts":"2021-02-21T10:34:18.295-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"WARN","ts":"2021-02-21T11:28:51.183-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"WARN","ts":"2021-02-21T11:29:00.135-0700","caller":"controllers/authentication.go:43","msg":"Attempt to login with invalid credentials: %s crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"level":"WARN","ts":"2021-02-21T13:55:56.734-0700","caller":"controllers/authentication.go:32","msg":"Attempt to login resulted in email not found."}
+{"level":"INFO","ts":"2021-02-21T21:23:15.915-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-21T21:23:16.267-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-21T21:26:03.075-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-21T21:26:03.402-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-21T21:31:35.495-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-21T21:31:35.799-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-21T21:37:39.602-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-21T21:37:39.945-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-21T21:43:14.026-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-21T21:43:14.334-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-21T21:44:06.965-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-21T21:44:07.285-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-21T21:44:47.633-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-21T21:44:47.969-0700","caller":"go-dwh-api/main.go:24","msg":"Connected on port 8989"}

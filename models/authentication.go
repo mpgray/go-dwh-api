@@ -1,12 +1,22 @@
+package models
+
 import (
-	"gorm.io/gorm"
+	"fmt"
+	"go-dwh-api/app"
+	"net/http"
+	"os"
+	"strconv"
+	"strings"
+
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type User struct {
 	gorm.Model
 	ID       uint64 `json:"id"`
-	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
@@ -29,15 +39,8 @@ type AccessDetails struct {
 	UserId     uint64
 }
 
-//A sample use
-var user = User{
-	ID:       1,
-	Username: "username",
-	Password: "password",
-}
-
 func FetchAuth(authD *AccessDetails) (uint64, error) {
-	userid, err := client.Get(authD.AccessUuid).Result()
+	userid, err := app.GetRedis().Get(authD.AccessUuid).Result()
 	if err != nil {
 		return 0, err
 	}
@@ -115,6 +118,3 @@ func VerifyToken(r *http.Request) (*jwt.Token, error) {
 	}
 	return token, nil
 }
-
-
-

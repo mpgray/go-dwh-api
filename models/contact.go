@@ -7,6 +7,7 @@ an owner, or a tenent (non owner occupant)
 */
 import (
 	"fmt"
+	"go-dwh-api/app"
 	u "go-dwh-api/utils"
 
 	"gorm.io/gorm"
@@ -110,14 +111,12 @@ func (contact *Contact) Validate() (map[string]interface{}, bool) {
 }
 
 // Create makes the contact
-func (contact *Contact) Create() map[string]interface{} {
+func (contact *Contact) CreateContact() map[string]interface{} {
 
 	if resp, ok := contact.Validate(); !ok {
 		return resp
 	}
-
-	GetDB().Create(contact)
-
+	app.GetDB().Create(contact)
 	resp := u.Message(true, "success")
 	resp["contact"] = contact
 	return resp
@@ -127,7 +126,7 @@ func (contact *Contact) Create() map[string]interface{} {
 func GetContact(contactID uint, user uint) *Contact {
 	contact := &Contact{}
 
-	err := GetDB().Where("user_id = ? and ID = ?", user, contactID).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Preload("Statement").First(contact).Error
+	err := app.GetDB().Where("user_id = ? and ID = ?", user, contactID).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Preload("Statement").First(contact).Error
 	if err != nil {
 		u.Log.Error(fmt.Sprint(err))
 		return nil
@@ -140,7 +139,7 @@ func GetContacts(user uint) []*Contact {
 
 	contacts := make([]*Contact, 0)
 
-	err := GetDB().Where("user_id = ?", user).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Preload("Statement").Find(&contacts).Error
+	err := app.GetDB().Where("user_id = ?", user).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Preload("Statement").Find(&contacts).Error
 	if err != nil {
 		u.Log.Error(err)
 	}
