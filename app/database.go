@@ -24,7 +24,7 @@ func init() {
 func postgresDB() {
 	e := godotenv.Load()
 	if e != nil {
-		u.Log.Warn(fmt.Sprint(e))
+		u.Log.Warn(e.Error())
 	}
 
 	username := os.Getenv("db_user")
@@ -41,7 +41,7 @@ func postgresDB() {
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
-		u.Log.Error(fmt.Sprint(err))
+		u.Log.Fatal(err.Error())
 	}
 
 	db = conn
@@ -58,7 +58,7 @@ func redisCache() {
 	})
 	_, err := redisClient.Ping().Result()
 	if err != nil {
-		panic(err)
+		u.Log.Fatal(err.Error())
 	}
 }
 

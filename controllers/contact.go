@@ -13,8 +13,8 @@ import (
 // CreateContact is a controller to make a new contact
 var CreateContact = func(c *gin.Context) {
 
-	user := c.Query("user") //Grab the id of the user that send the request
-	fmt.Printf("User that created contact %s", user)
+	user := c.Request.Context().Value("user_id").(uint) //Grab the id of the user that sent the request
+	fmt.Printf("User that created contact %d", user)
 	contact := &models.Contact{}
 
 	if err := c.ShouldBindJSON(&contact); err != nil {

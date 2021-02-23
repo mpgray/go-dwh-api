@@ -10,24 +10,33 @@ import (
 
 //api endpoints
 const (
-	newAccount  = "/api/v1/account/new"
-	login       = "/api/v1/account/login"
-	logout      = "/api/v1/account/logout"
-	refresh     = "/api/v1/account/refresh"
-	newContact  = "/api/v1/contact/new"
-	getContact  = "/api/v1/me/contact"
-	getContacts = "/api/v1/me/contacts"
+	newAccount  = "/account/new"
+	login       = "/account/login"
+	logout      = "/account/logout"
+	refresh     = "/account/refresh"
+	newContact  = "/contact/new"
+	getContact  = "/me/contact"
+	getContacts = "/me/contacts"
 )
 
 // Router creates and serves the server
 func Router() *gin.Engine {
 	router := gin.Default()
 
-	router.POST(login, controllers.Login)
-	router.POST(newAccount, controllers.CreateAccount)
-	router.POST(refresh, controllers.Refresh)
-	router.POST(logout, controllers.Logout)
-	router.POST(newContact, controllers.CreateContact)
+	// Group that needs no authenticating, i.e. unauthenticated
+	unauthenticated := router.Group("/api/v1")
+	{
+		unauthenticated.POST(login, controllers.Login)
+		unauthenticated.POST(newAccount, controllers.CreateAccount)
+	}
+
+	// Group that requires an authenticated user
+	authenticated := router.Group("/api/v1/auth")
+	{
+		authenticated.POST(refresh, controllers.Refresh)
+		authenticated.POST(logout, controllers.Logout)
+		authenticated.POST(newContact, controllers.CreateContact)
+	}
 
 	//	router.HandleFunc(apiPath+newAccount, controllers.CreateAccount).Methods(http.MethodPost)
 	//	router.HandleFunc(apiPath+login, controllers.Authenticate).Methods(http.MethodPost)
