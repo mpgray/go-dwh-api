@@ -110,7 +110,7 @@ func (contact *Contact) Validate() (map[string]interface{}, bool) {
 	return u.Message(isValid, message), isValid
 }
 
-// Create makes the contact
+// CreateContact validates and create contact and sends the json
 func (contact *Contact) CreateContact() map[string]interface{} {
 
 	if resp, ok := contact.Validate(); !ok {

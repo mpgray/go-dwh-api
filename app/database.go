@@ -62,6 +62,7 @@ func redisCache() {
 	}
 }
 
+// GetRedis returns the redis client
 func GetRedis() *redis.Client {
 	return redisClient
 }
