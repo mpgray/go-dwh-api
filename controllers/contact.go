@@ -12,17 +12,26 @@ import (
 
 // CreateContact is a controller to make a new contact
 var CreateContact = func(c *gin.Context) {
-
-	user := c.Request.Context().Value("user_id").(uint) //Grab the id of the user that sent the request
-	fmt.Printf("User that created contact %d", user)
 	contact := &models.Contact{}
-
 	if err := c.ShouldBindJSON(&contact); err != nil {
-		u.Log.Error("Invalid JSON data recieved when trying to make a new Contact.")
-		c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
+		c.JSON(http.StatusUnprocessableEntity, "invalid json")
 		return
 	}
+	metadata, err := models.ExtractTokenMetadata(c.Request)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, "unauthorized")
+		return
+	}
+	/*
+		userID, err := models.FetchAuth(metadata)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, "unauthorized")
+			return
+		} */
 
+	fmt.Printf(fmt.Sprint(metadata.UserID))
+
+	contact.UserID = metadata.UserID
 	resp := contact.CreateContact() //Create account
 	u.Respond(c.Writer, resp)
 }

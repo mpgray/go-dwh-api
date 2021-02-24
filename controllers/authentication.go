@@ -50,7 +50,7 @@ var Login = func(c *gin.Context) {
 	//Worked! Logged In
 	user.Password = ""
 
-	ts, err := createToken(user.ID)
+	ts, err := createToken(dbUser.ID)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, err.Error())
 		return
@@ -94,7 +94,6 @@ var Refresh = func(c *gin.Context) {
 	refreshToken := mapToken["refresh_token"]
 
 	//verify the token
-	os.Setenv("REFRESH_SECRET", "mcmvmkmsdnfsdmfdsjf") //this should be in an env file
 	token, err := jwt.Parse(refreshToken, func(token *jwt.Token) (interface{}, error) {
 		//Make sure that the token method conform to "SigningMethodHMAC"
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
