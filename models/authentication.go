@@ -1,5 +1,11 @@
 package models
 
+import (
+	"go-dwh-api/app"
+
+	"github.com/gin-gonic/gin"
+)
+
 // Todo is a test struct
 type Todo struct {
 	UserID uint32 `json:"user_id"`
@@ -24,3 +30,16 @@ func FetchAuth(authD *AccessDetails) (uint32, error) {
 	userID := uint32(userID64)
 	return userID, err
 } */
+
+func FetchAuthenticatedID(c *gin.Context, j interface{}) (uint32, error) {
+	if err := c.ShouldBindJSON(&j); err != nil {
+		app.UnprocessableEntityError(c, "Invalid JSON recieved "+err.Error())
+		return 0, err
+	}
+
+	metadata, err := ExtractTokenMetadata(c.Request)
+	if err != nil {
+
+		return metadata.UserID, err
+	}
+}

@@ -35,18 +35,23 @@ var CreateContact = func(c *gin.Context) {
 
 // GetContact Gets all the contact information for a single user.
 var GetContact = func(c *gin.Context) {
-	contactID := &models.ContactID{}
-	if err := c.ShouldBindJSON(&contactID); err != nil {
-		app.UnprocessableEntityError(c, "Invalid JSON recieved during getting of a contact "+err.Error())
-		return
-	}
+	/*	contactID := &models.ContactID{}
+		if err := c.ShouldBindJSON(&contactID); err != nil {
+			app.UnprocessableEntityError(c, "Invalid JSON recieved during getting of a contact "+err.Error())
+			return
+		}
 
-	metadata, err := models.ExtractTokenMetadata(c.Request)
+		metadata, err := models.ExtractTokenMetadata(c.Request)
+		if err != nil {
+			app.UnauthorizedError(c, "Unauthorized attempt to get a contact "+err.Error())
+			return
+		} */
+	contactID := &models.ContactID{}
+	userID, err := models.FetchAuthenticatedID(c, &contactID)
 	if err != nil {
 		app.UnauthorizedError(c, "Unauthorized attempt to get a contact "+err.Error())
 		return
 	}
-	userID := metadata.UserID
 
 	data := models.GetContact(contactID.ID, userID)
 	if data == nil {
