@@ -119,7 +119,9 @@ var Refresh = func(c *gin.Context) {
 			c.JSON(http.StatusUnprocessableEntity, err)
 			return
 		}
-		userID, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 64)
+		userID64, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 32)
+		userID := uint(userID64)
+
 		if err != nil {
 			c.JSON(http.StatusUnprocessableEntity, "Error occurred")
 			return
@@ -154,7 +156,7 @@ var Refresh = func(c *gin.Context) {
 
 // CreateToken makes an access token that lasts 15 minutes
 // and a refresh token that lasts a week.
-func createToken(userid uint64) (*models.TokenDetails, error) {
+func createToken(userid uint) (*models.TokenDetails, error) {
 	td := &models.TokenDetails{}
 	td.AtExpires = time.Now().Add(time.Minute * 15).Unix()
 	td.AccessUUID = uuid.NewV4().String()
@@ -188,7 +190,7 @@ func createToken(userid uint64) (*models.TokenDetails, error) {
 }
 
 // CreateAuth adds the access token and the refresh token to the redis database
-func createAuth(userid uint64, td *models.TokenDetails) error {
+func createAuth(userid uint, td *models.TokenDetails) error {
 	at := time.Unix(td.AtExpires, 0) //converting Unix to UTC(to Time object)
 	rt := time.Unix(td.RtExpires, 0)
 	now := time.Now()

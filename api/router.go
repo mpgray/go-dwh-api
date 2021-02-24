@@ -16,8 +16,7 @@ const (
 	login      = "/account/login"
 	refresh    = "/account/refresh"
 	// Needs authorization
-	logout = "/account/logout"
-
+	logout      = "/account/logout"
 	newContact  = "/contact/new"
 	getContact  = "/me/contact"
 	getContacts = "/me/contacts"
@@ -32,7 +31,6 @@ func Router() *gin.Engine {
 	{
 		unauthenticated.POST(login, controllers.Login)
 		unauthenticated.POST(newAccount, controllers.CreateAccount)
-		unauthenticated.POST(refresh, controllers.Refresh)
 	}
 
 	authenticated := router.Group("/api/v1/auth")
@@ -41,15 +39,11 @@ func Router() *gin.Engine {
 	{
 		authenticated.POST(logout, controllers.Logout)
 		authenticated.POST(newContact, controllers.CreateContact)
+		authenticated.GET(getContacts, controllers.GetContactsFor)
+		unauthenticated.POST(refresh, controllers.Refresh)
 	}
 
-	//	router.HandleFunc(apiPath+newAccount, controllers.CreateAccount).Methods(http.MethodPost)
-	//	router.HandleFunc(apiPath+login, controllers.Authenticate).Methods(http.MethodPost)
-	//  router.HandleFunc(apiPath+newContact, controllers.CreateContact).Methods(http.MethodPost)
 	//  router.HandleFunc(apiPath+getContact, controllers.GetContact).Methods(http.MethodPost)
-	//  router.HandleFunc(apiPath+getContacts, controllers.GetContactsFor).Methods(http.MethodGet) //  user/2/contacts
-
-	//	router.Use(JwtAuthentication) //attach JWT auth middleware
 
 	//router.NotFoundHandler = app.NotFoundHandler
 

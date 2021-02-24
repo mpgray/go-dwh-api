@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"go-dwh-api/models"
 	u "go-dwh-api/utils"
 	"net/http"
@@ -29,8 +28,6 @@ var CreateContact = func(c *gin.Context) {
 			return
 		} */
 
-	fmt.Printf(fmt.Sprint(metadata.UserID))
-
 	contact.UserID = metadata.UserID
 	resp := contact.CreateContact() //Create account
 	u.Respond(c.Writer, resp)
@@ -55,11 +52,17 @@ var GetContact = func(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetContactsFor gets all the contacts associated with an owner
-var GetContactsFor = func(w http.ResponseWriter, r *http.Request) {
+var GetContactsFor = func(c *gin.Context) {
 
-	userID := r.Context().Value("user").(uint)
+	metadata, err := models.ExtractTokenMetadata(c.Request)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, "unauthorized")
+		return
+	}
+
+	userID := metadata.UserID
 	data := models.GetContacts(userID)
 	resp := u.Message(true, "success")
 	resp["data"] = data
-	u.Respond(w, resp)
+	u.Respond(c.Writer, resp)
 }

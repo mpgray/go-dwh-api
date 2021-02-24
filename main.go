@@ -18,7 +18,7 @@ func init() {
 }
 
 func main() {
-	app.GetDB().AutoMigrate(&m.Account{}, &m.Contact{}, &m.FullName{},
+	app.GetDB().AutoMigrate(&m.Contact{}, &m.FullName{},
 		&m.Address{}, &m.Phone{}, &m.Statement{}, &m.User{})
 
 	port := os.Getenv("PORT")

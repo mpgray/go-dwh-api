@@ -20,8 +20,7 @@ type Contact struct {
 	Name    FullName `gorm:"foreignkey:ContactID"`
 	Address Address  `gorm:"foreignkey:ContactID"` // Mailing address
 	//Properties []Address `json:"propertyAddresses" gorm:"foreignKey:ID"` // The properties owned by the owner
-	Phone     Phone     `gorm:"foreignkey:ContactID"`
-	Statement Statement `gorm:"foreignkey:ContactID"`
+	Phone Phone `gorm:"foreignkey:ContactID"`
 }
 
 //FullName contains owners first middle and last name
@@ -73,7 +72,7 @@ const (
 
 // Validate validates the required parameters sent through the http request body
 // returns message and true if the requirement is met
-func (contact *Contact) Validate() (map[string]interface{}, bool) {
+func (contact *Contact) validate() (map[string]interface{}, bool) {
 	message := "Missing required fields:\n"
 	isValid := true
 
@@ -113,7 +112,7 @@ func (contact *Contact) Validate() (map[string]interface{}, bool) {
 // CreateContact validates and create contact and sends the json
 func (contact *Contact) CreateContact() map[string]interface{} {
 
-	if resp, ok := contact.Validate(); !ok {
+	if resp, ok := contact.validate(); !ok {
 		return resp
 	}
 	app.GetDB().Create(contact)
@@ -135,7 +134,7 @@ func GetContact(contactID uint, user uint) *Contact {
 }
 
 // GetContacts gets all the contacts associated with the user.
-func GetContacts(user uint) []*Contact {
+func GetContacts(user uint64) []*Contact {
 
 	contacts := make([]*Contact, 0)
 

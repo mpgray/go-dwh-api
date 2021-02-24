@@ -16,7 +16,7 @@ import (
 //User is the basic login information of the user.
 type User struct {
 	gorm.Model
-	ID       uint64 `json:"id"`
+	ID       uint   `json:"id"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
