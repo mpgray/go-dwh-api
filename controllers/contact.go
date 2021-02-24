@@ -1,11 +1,9 @@
 package controllers
 
 import (
-	"encoding/json"
 	"go-dwh-api/app"
 	"go-dwh-api/models"
 	u "go-dwh-api/utils"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,12 +12,12 @@ import (
 var CreateContact = func(c *gin.Context) {
 	contact := &models.Contact{}
 	if err := c.ShouldBindJSON(&contact); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, "invalid json")
+		app.UnprocessableEntityError(c, "Invalid JSON recieved during Creation of contact "+err.Error())
 		return
 	}
 	metadata, err := models.ExtractTokenMetadata(c.Request)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, "unauthorized")
+		app.UnauthorizedError(c, err.Error())
 		return
 	}
 	/*
@@ -30,40 +28,47 @@ var CreateContact = func(c *gin.Context) {
 		} */
 
 	contact.UserID = metadata.UserID
-	resp := contact.CreateContact() //Create account
+	resp := u.Message(true, "Contact created successfully")
+	resp["contact"] = contact.CreateContact() //Create contact
 	u.Respond(c.Writer, resp)
 }
 
 // GetContact Gets all the contact information for a single user.
-var GetContact = func(w http.ResponseWriter, r *http.Request) {
-	contactID := &models.Contact{}
-
-	err := json.NewDecoder(r.Body).Decode(contactID)
-	if err != nil {
-		u.Log.Error("Invalid JSON data recieved when getting a contact.")
-		u.Respond(w, u.Message(false, "Error while decoding request body"))
+var GetContact = func(c *gin.Context) {
+	contactID := &models.ContactID{}
+	if err := c.ShouldBindJSON(&contactID); err != nil {
+		app.UnprocessableEntityError(c, "Invalid JSON recieved during getting of a contact "+err.Error())
 		return
 	}
 
-	userID := r.Context().Value("user").(uint)
+	metadata, err := models.ExtractTokenMetadata(c.Request)
+	if err != nil {
+		app.UnauthorizedError(c, "Unauthorized attempt to get a contact "+err.Error())
+		return
+	}
+	userID := metadata.UserID
+
 	data := models.GetContact(contactID.ID, userID)
-	resp := u.Message(true, "success")
+	if data == nil {
+		app.ForbiddenError(c, "That user isn't associated with you. "+err.Error())
+		return
+	}
+	resp := u.Message(true, "Contact Retrieved Successfully")
 	resp["data"] = data
-	u.Respond(w, resp)
+	u.Respond(c.Writer, resp)
 }
 
 // GetContactsFor gets all the contacts associated with an owner
 var GetContactsFor = func(c *gin.Context) {
-
 	metadata, err := models.ExtractTokenMetadata(c.Request)
 	if err != nil {
 		app.UnauthorizedError(c, "Unauthorized attempt to get contacts "+err.Error())
 		return
 	}
-
 	userID := metadata.UserID
-	data := models.GetContacts(userID)
-	resp := u.Message(true, "All Contacts retrived successfully.")
-	resp["data"] = data
+
+	contacts := models.GetContacts(userID)
+	resp := u.Message(true, "All Contacts retrieved successfully.")
+	resp["contacts"] = contacts
 	u.Respond(c.Writer, resp)
 }

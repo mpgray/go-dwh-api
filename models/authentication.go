@@ -1,10 +1,5 @@
 package models
 
-import (
-	"go-dwh-api/app"
-	"strconv"
-)
-
 // Todo is a test struct
 type Todo struct {
 	UserID uint32 `json:"user_id"`
@@ -17,6 +12,8 @@ type AccessDetails struct {
 	UserID     uint32
 }
 
+//TODO: Implement this so that a user_id isn't sent to token just an accessUUID that can get the userID
+/*
 // FetchAuth gets the userID with the AccessUUID
 func FetchAuth(authD *AccessDetails) (uint32, error) {
 	userid, err := app.GetRedis().Get(authD.AccessUUID).Result()
@@ -26,4 +23,4 @@ func FetchAuth(authD *AccessDetails) (uint32, error) {
 	userID64, _ := strconv.ParseUint(userid, 10, 64)
 	userID := uint32(userID64)
 	return userID, err
-}
+} */

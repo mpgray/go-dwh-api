@@ -55,7 +55,7 @@ const (
 )
 
 // GetCurrentStatement of the account number.
-func GetCurrentStatement(id uint) *Statement {
+func GetCurrentStatement(id uint32) *Statement {
 
 	statement := &Statement{}
 	err := app.GetDB().Table("statements").Where("id = ?", id).First(statement).Error
@@ -67,7 +67,7 @@ func GetCurrentStatement(id uint) *Statement {
 }
 
 // GetStatementHistory of the account number for the past year.
-func GetStatementHistory(user uint) []*Statement {
+func GetStatementHistory(user uint32) []*Statement {
 
 	statements := make([]*Statement, 0)
 	err := app.GetDB().Table("statements").Where("user_id = ?", user).Find(&statements).Error

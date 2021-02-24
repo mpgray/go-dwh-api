@@ -38,8 +38,9 @@ func Router() *gin.Engine {
 	{
 		authenticated.POST(logout, controllers.Logout)
 		authenticated.POST(newContact, controllers.CreateContact)
+		authenticated.POST(getContact, controllers.GetContact)
 		authenticated.GET(getContacts, controllers.GetContactsFor)
-		unauthenticated.POST(refresh, controllers.Refresh)
+		authenticated.POST(refresh, controllers.Refresh)
 	}
 
 	//  router.HandleFunc(apiPath+getContact, controllers.GetContact).Methods(http.MethodPost)
