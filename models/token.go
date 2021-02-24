@@ -25,7 +25,7 @@ type TokenDetails struct {
 
 // CreateToken makes an access token that lasts 15 minutes
 // and a refresh token that lasts a week.
-func CreateToken(userid uint) (*TokenDetails, error) {
+func CreateToken(userid uint32) (*TokenDetails, error) {
 	td := &TokenDetails{}
 	td.AtExpires = time.Now().Add(time.Minute * 15).Unix()
 	td.AccessUUID = uuid.NewV4().String()
@@ -83,7 +83,8 @@ func ExtractTokenMetadata(r *http.Request) (*AccessDetails, error) {
 		if !ok {
 			return nil, err
 		}
-		userID, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 64)
+		userID64, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 64)
+		userID := uint32(userID64)
 		if err != nil {
 			return nil, err
 		}

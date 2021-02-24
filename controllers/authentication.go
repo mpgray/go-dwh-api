@@ -80,7 +80,7 @@ func Logout(c *gin.Context) {
 }
 
 // CreateAuth adds the access token and the refresh token to the redis database
-func createAuth(userid uint, td *models.TokenDetails) error {
+func createAuth(userid uint32, td *models.TokenDetails) error {
 	at := time.Unix(td.AtExpires, 0) //converting Unix to UTC(to Time object)
 	rt := time.Unix(td.RtExpires, 0)
 	now := time.Now()

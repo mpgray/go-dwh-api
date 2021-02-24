@@ -16,7 +16,7 @@ import (
 // Contact gets the Name, phone and UserID of the contact
 type Contact struct {
 	gorm.Model
-	UserID  uint64   `json:"userId"` //The user that this contact belongs to
+	UserID  uint32   `json:"userId"` //The user that this contact belongs to
 	Name    FullName `gorm:"foreignkey:ContactID"`
 	Address Address  `gorm:"foreignkey:ContactID"` // Mailing address
 	//Properties []Address `json:"propertyAddresses" gorm:"foreignKey:ID"` // The properties owned by the owner
@@ -134,7 +134,7 @@ func GetContact(contactID uint, user uint) *Contact {
 }
 
 // GetContacts gets all the contacts associated with the user.
-func GetContacts(user uint64) []*Contact {
+func GetContacts(user uint32) []*Contact {
 
 	contacts := make([]*Contact, 0)
 

@@ -62,7 +62,7 @@ var Refresh = func(c *gin.Context) {
 			return
 		}
 		userID64, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 32)
-		userID := uint(userID64)
+		userID := uint32(userID64)
 
 		if err != nil {
 			c.JSON(http.StatusUnprocessableEntity, "Error occurred")
