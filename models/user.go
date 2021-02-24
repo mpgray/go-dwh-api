@@ -10,6 +10,14 @@ import (
 	"gorm.io/gorm"
 )
 
+//User is the basic login information of the user.
+type User struct {
+	gorm.Model
+	ID       uint   `json:"id"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 //Validate incoming user details...
 func (user *User) validate() (map[string]interface{}, bool) {
 

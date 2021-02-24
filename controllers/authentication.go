@@ -1,18 +1,14 @@
 package controllers
 
 import (
-	"fmt"
 	"go-dwh-api/app"
 	"go-dwh-api/models"
 	u "go-dwh-api/utils"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/twinj/uuid"
 	"golang.org/x/crypto/bcrypt"
 
 	"gorm.io/gorm"
@@ -50,7 +46,7 @@ var Login = func(c *gin.Context) {
 	//Worked! Logged In
 	user.Password = ""
 
-	ts, err := createToken(dbUser.ID)
+	ts, err := models.CreateToken(dbUser.ID)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, err.Error())
 		return
@@ -81,112 +77,6 @@ func Logout(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, "Successfully logged out")
-}
-
-// Refresh uses the refresh token to get a new Authentication and
-// Refresh token.
-var Refresh = func(c *gin.Context) {
-	mapToken := map[string]string{}
-	if err := c.ShouldBindJSON(&mapToken); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, err.Error())
-		return
-	}
-	refreshToken := mapToken["refresh_token"]
-
-	//verify the token
-	token, err := jwt.Parse(refreshToken, func(token *jwt.Token) (interface{}, error) {
-		//Make sure that the token method conform to "SigningMethodHMAC"
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
-		return []byte(os.Getenv("REFRESH_SECRET")), nil
-	})
-	//if there is an error, the token must have expired
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, "Refresh token expired")
-		return
-	}
-	//is token valid?
-	if _, ok := token.Claims.(jwt.Claims); !ok && !token.Valid {
-		c.JSON(http.StatusUnauthorized, err)
-		return
-	}
-	//Since token is valid, get the uuid:
-	claims, ok := token.Claims.(jwt.MapClaims) //the token claims should conform to MapClaims
-	if ok && token.Valid {
-		refreshUUID, ok := claims["refresh_uuid"].(string) //convert the interface to string
-		if !ok {
-			c.JSON(http.StatusUnprocessableEntity, err)
-			return
-		}
-		userID64, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 32)
-		userID := uint(userID64)
-
-		if err != nil {
-			c.JSON(http.StatusUnprocessableEntity, "Error occurred")
-			return
-		}
-		//Delete the previous Refresh Token
-		deleted, delErr := deleteAuth(refreshUUID)
-		if delErr != nil || deleted == 0 { //if any goes wrong
-			c.JSON(http.StatusUnauthorized, "unauthorized")
-			return
-		}
-		//Create new pairs of refresh and access tokens
-		ts, createErr := createToken(userID)
-		if createErr != nil {
-			c.JSON(http.StatusForbidden, createErr.Error())
-			return
-		}
-		//save the tokens metadata to redis
-		saveErr := createAuth(userID, ts)
-		if saveErr != nil {
-			c.JSON(http.StatusForbidden, saveErr.Error())
-			return
-		}
-		tokens := map[string]string{
-			"access_token":  ts.AccessToken,
-			"refresh_token": ts.RefreshToken,
-		}
-		c.JSON(http.StatusCreated, tokens)
-	} else {
-		c.JSON(http.StatusUnauthorized, "refresh expired")
-	}
-}
-
-// CreateToken makes an access token that lasts 15 minutes
-// and a refresh token that lasts a week.
-func createToken(userid uint) (*models.TokenDetails, error) {
-	td := &models.TokenDetails{}
-	td.AtExpires = time.Now().Add(time.Minute * 15).Unix()
-	td.AccessUUID = uuid.NewV4().String()
-
-	td.RtExpires = time.Now().Add(time.Hour * 24 * 7).Unix()
-	td.RefreshUUID = uuid.NewV4().String()
-
-	var err error
-	//Creating Access Token
-	atClaims := jwt.MapClaims{}
-	atClaims["authorized"] = true
-	atClaims["access_uuid"] = td.AccessUUID
-	atClaims["user_id"] = userid
-	atClaims["exp"] = td.AtExpires
-	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	td.AccessToken, err = at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
-	if err != nil {
-		return nil, err
-	}
-	//Creating Refresh Token
-	rtClaims := jwt.MapClaims{}
-	rtClaims["refresh_uuid"] = td.RefreshUUID
-	rtClaims["user_id"] = userid
-	rtClaims["exp"] = td.RtExpires
-	rt := jwt.NewWithClaims(jwt.SigningMethodHS256, rtClaims)
-	td.RefreshToken, err = rt.SignedString([]byte(os.Getenv("REFRESH_SECRET")))
-	if err != nil {
-		return nil, err
-	}
-	return td, nil
 }
 
 // CreateAuth adds the access token and the refresh token to the redis database

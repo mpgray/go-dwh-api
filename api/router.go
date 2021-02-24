@@ -2,7 +2,6 @@ package api
 
 import (
 	"go-dwh-api/controllers"
-	"go-dwh-api/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,11 +10,11 @@ import (
 
 //api endpoints
 const (
-	// Do not need authorization
-	newAccount = "/account/new"
-	login      = "/account/login"
-	refresh    = "/account/refresh"
+	// Does not need authorization
+	newUser = "/user/new"
+	login   = "/account/login"
 	// Needs authorization
+	refresh     = "/account/refresh"
 	logout      = "/account/logout"
 	newContact  = "/contact/new"
 	getContact  = "/me/contact"
@@ -30,12 +29,12 @@ func Router() *gin.Engine {
 	unauthenticated := router.Group("/api/v1")
 	{
 		unauthenticated.POST(login, controllers.Login)
-		unauthenticated.POST(newAccount, controllers.CreateAccount)
+		unauthenticated.POST(newUser, controllers.CreateUser)
 	}
 
 	authenticated := router.Group("/api/v1/auth")
 	// Group that requires an authenticated user
-	authenticated.Use(models.TokenAuthenticator())
+	authenticated.Use(controllers.TokenAuthenticator())
 	{
 		authenticated.POST(logout, controllers.Logout)
 		authenticated.POST(newContact, controllers.CreateContact)
