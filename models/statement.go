@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"go-dwh-api/app"
 	u "go-dwh-api/utils"
 	"time"
@@ -61,7 +60,7 @@ func GetCurrentStatement(id uint) *Statement {
 	statement := &Statement{}
 	err := app.GetDB().Table("statements").Where("id = ?", id).First(statement).Error
 	if err != nil {
-		u.Log.Error(fmt.Sprint(err))
+		u.Log.Error(err)
 		return nil
 	}
 	return statement
@@ -73,7 +72,7 @@ func GetStatementHistory(user uint) []*Statement {
 	statements := make([]*Statement, 0)
 	err := app.GetDB().Table("statements").Where("user_id = ?", user).Find(&statements).Error
 	if err != nil {
-		u.Log.Error(fmt.Sprint(err))
+		u.Log.Error(err)
 		return nil
 	}
 

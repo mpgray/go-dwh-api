@@ -25,5 +25,5 @@ func FetchAuth(authD *AccessDetails) (uint32, error) {
 	}
 	userID64, _ := strconv.ParseUint(userid, 10, 64)
 	userID := uint32(userID64)
-	return userID, nil
+	return userID, err
 }

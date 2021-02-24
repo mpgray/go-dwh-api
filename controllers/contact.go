@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"go-dwh-api/app"
 	"go-dwh-api/models"
 	u "go-dwh-api/utils"
 	"net/http"
@@ -56,13 +57,13 @@ var GetContactsFor = func(c *gin.Context) {
 
 	metadata, err := models.ExtractTokenMetadata(c.Request)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, "unauthorized")
+		app.UnauthorizedError(c, "Unauthorized attempt to get contacts "+err.Error())
 		return
 	}
 
 	userID := metadata.UserID
 	data := models.GetContacts(userID)
-	resp := u.Message(true, "success")
+	resp := u.Message(true, "All Contacts retrived successfully.")
 	resp["data"] = data
 	u.Respond(c.Writer, resp)
 }

@@ -18,6 +18,44 @@ type User struct {
 	Password string `json:"password"`
 }
 
+// CreateUser the user's account
+func (user *User) CreateUser() map[string]interface{} {
+
+	if resp, ok := user.validate(); !ok {
+		return resp
+	}
+
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	user.Password = string(hashedPassword)
+
+	app.GetDB().Create(user)
+
+	if user.ID <= 0 {
+		u.Log.Error("DB Connection Failed: While creating account")
+		return u.Message(false, "Failed to create account, connection error.")
+	}
+
+	user.Password = "" //delete password
+
+	u.Log.Infof("New Account- Email: %s", user.Email)
+	response := u.Message(true, "Account has been created")
+	response["user"] = user
+	return response
+}
+
+// GetUser returns nil when user not found in the database and the information it does
+func GetUser(u uint64) *User {
+
+	acc := &User{}
+	app.GetDB().Table("user").Where("id = ?", u).First(acc)
+	if acc.Email == "" { //User not found!
+		return nil
+	}
+
+	acc.Password = ""
+	return acc
+}
+
 //Validate incoming user details...
 func (user *User) validate() (map[string]interface{}, bool) {
 
@@ -48,42 +86,4 @@ func (user *User) validate() (map[string]interface{}, bool) {
 	}
 
 	return u.Message(false, "Requirement passed"), true
-}
-
-// CreateUser the user's account
-func (user *User) CreateUser() map[string]interface{} {
-
-	if resp, ok := user.validate(); !ok {
-		return resp
-	}
-
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-	user.Password = string(hashedPassword)
-
-	app.GetDB().Create(user)
-
-	if user.ID <= 0 {
-		u.Log.Error("DB Connection Failed: While creating account")
-		return u.Message(false, "Failed to create account, connection error.")
-	}
-
-	user.Password = "" //delete password
-
-	u.Log.Infof("New Account-- Email: %s", user.Email)
-	response := u.Message(true, "Account has been created")
-	response["user"] = user
-	return response
-}
-
-// GetUser returns nil when user not found in the database and the information it does
-func GetUser(u uint64) *User {
-
-	acc := &User{}
-	app.GetDB().Table("user").Where("id = ?", u).First(acc)
-	if acc.Email == "" { //User not found!
-		return nil
-	}
-
-	acc.Password = ""
-	return acc
 }

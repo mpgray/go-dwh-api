@@ -6,7 +6,6 @@ of a contact. A contact is defined as either an association profile,
 an owner, or a tenent (non owner occupant)
 */
 import (
-	"fmt"
 	"go-dwh-api/app"
 	u "go-dwh-api/utils"
 
@@ -127,7 +126,7 @@ func GetContact(contactID uint, user uint) *Contact {
 
 	err := app.GetDB().Where("user_id = ? and ID = ?", user, contactID).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Preload("Statement").First(contact).Error
 	if err != nil {
-		u.Log.Error(fmt.Sprint(err))
+		u.Log.Error(err)
 		return nil
 	}
 	return contact

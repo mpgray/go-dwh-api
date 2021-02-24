@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"go-dwh-api/app"
 	"go-dwh-api/models"
 	"net/http"
 	"os"
@@ -17,7 +18,7 @@ func TokenAuthenticator() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		err := models.TokenValid(c.Request)
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, err.Error())
+			app.UnauthorizedError(c, err.Error())
 			c.Abort()
 			return
 		}
@@ -30,7 +31,7 @@ func TokenAuthenticator() gin.HandlerFunc {
 var Refresh = func(c *gin.Context) {
 	mapToken := map[string]string{}
 	if err := c.ShouldBindJSON(&mapToken); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, err.Error())
+		app.UnprocessableEntityError(c, err.Error())
 		return
 	}
 	refreshToken := mapToken["refresh_token"]
@@ -45,12 +46,12 @@ var Refresh = func(c *gin.Context) {
 	})
 	//if there is an error, the token must have expired
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, "Refresh token expired")
+		app.UnauthorizedError(c, "Refresh token expired")
 		return
 	}
 	//is token valid?
 	if _, ok := token.Claims.(jwt.Claims); !ok && !token.Valid {
-		c.JSON(http.StatusUnauthorized, err)
+		app.UnauthorizedError(c, err.Error())
 		return
 	}
 	//Since token is valid, get the uuid:
@@ -58,32 +59,32 @@ var Refresh = func(c *gin.Context) {
 	if ok && token.Valid {
 		refreshUUID, ok := claims["refresh_uuid"].(string) //convert the interface to string
 		if !ok {
-			c.JSON(http.StatusUnprocessableEntity, err)
+			app.UnprocessableEntityError(c, err.Error())
 			return
 		}
 		userID64, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 32)
 		userID := uint32(userID64)
 
 		if err != nil {
-			c.JSON(http.StatusUnprocessableEntity, "Error occurred")
+			app.UnprocessableEntityError(c, err.Error())
 			return
 		}
 		//Delete the previous Refresh Token
 		deleted, delErr := deleteAuth(refreshUUID)
 		if delErr != nil || deleted == 0 { //if any goes wrong
-			c.JSON(http.StatusUnauthorized, "unauthorized")
+			app.UnauthorizedError(c, delErr.Error())
 			return
 		}
 		//Create new pairs of refresh and access tokens
 		ts, createErr := models.CreateToken(userID)
 		if createErr != nil {
-			c.JSON(http.StatusForbidden, createErr.Error())
+			app.ForbiddenError(c, createErr.Error())
 			return
 		}
 		//save the tokens metadata to redis
 		saveErr := createAuth(userID, ts)
 		if saveErr != nil {
-			c.JSON(http.StatusForbidden, saveErr.Error())
+			app.ForbiddenError(c, saveErr.Error())
 			return
 		}
 		tokens := map[string]string{
@@ -92,6 +93,6 @@ var Refresh = func(c *gin.Context) {
 		}
 		c.JSON(http.StatusCreated, tokens)
 	} else {
-		c.JSON(http.StatusUnauthorized, "refresh expired")
+		app.UnauthorizedError(c, "Your refresh token has expired")
 	}
 }

@@ -3,7 +3,6 @@ package controllers
 import (
 	"go-dwh-api/app"
 	"go-dwh-api/models"
-	u "go-dwh-api/utils"
 	"net/http"
 	"strconv"
 	"time"
@@ -20,7 +19,7 @@ import (
 var Login = func(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
+		app.UnprocessableEntityError(c, "Invalid json provided during login "+err.Error())
 		return
 	}
 
@@ -28,19 +27,16 @@ var Login = func(c *gin.Context) {
 	err := app.GetDB().Table("users").Where("email = ?", user.Email).First(dbUser).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			u.Log.Warn("Attempt to login resulted in email not found.")
-			c.JSON(http.StatusForbidden, u.Message(false, "Login Failed: Email address not found"))
+			app.UnauthorizedError(c, "Log in failed because Email address not found")
 			return
 		}
-		u.Log.Error("DB Connection Failed: During login attempt")
-		c.JSON(http.StatusForbidden, u.Message(false, "Connection error. Please retry"))
+		app.InternalServerError(c, "Database Connection error during loggin. Please retry")
 		return
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(user.Password))
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword { //Password does not match!
-		u.Log.Warn("Attempt to login with invalid credentials: %s ", err.Error())
-		c.JSON(http.StatusForbidden, u.Message(false, "Invalid login credentials. Please try again"))
+		app.ForbiddenError(c, "Invalid login credentials. Please try again")
 		return
 	}
 	//Worked! Logged In
@@ -48,12 +44,12 @@ var Login = func(c *gin.Context) {
 
 	ts, err := models.CreateToken(dbUser.ID)
 	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, err.Error())
+		app.UnprocessableEntityError(c, err.Error())
 		return
 	}
 	saveErr := createAuth(user.ID, ts)
 	if saveErr != nil {
-		c.JSON(http.StatusUnprocessableEntity, saveErr.Error())
+		app.UnprocessableEntityError(c, saveErr.Error())
 		return
 	}
 	tokens := map[string]string{
@@ -68,12 +64,12 @@ var Login = func(c *gin.Context) {
 func Logout(c *gin.Context) {
 	au, err := models.ExtractTokenMetadata(c.Request)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, "unauthorized")
+		app.UnauthorizedError(c, err.Error())
 		return
 	}
 	deleted, delErr := deleteAuth(au.AccessUUID)
 	if delErr != nil || deleted == 0 { //if any goes wrong
-		c.JSON(http.StatusUnauthorized, "unauthorized")
+		app.UnauthorizedError(c, delErr.Error())
 		return
 	}
 	c.JSON(http.StatusOK, "Successfully logged out")

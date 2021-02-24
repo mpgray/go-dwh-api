@@ -7,15 +7,7 @@ import (
 	u "go-dwh-api/utils"
 	"net/http"
 	"os"
-
-	"github.com/joho/godotenv"
 )
-
-func init() {
-	if err := godotenv.Load(); err != nil {
-		u.Log.Warn("No .env file found")
-	}
-}
 
 func main() {
 	app.GetDB().AutoMigrate(&m.Contact{}, &m.FullName{},
@@ -37,5 +29,5 @@ func main() {
 		u.Log.Fatal(err.Error())
 	}
 
-	defer u.Log.Infof("**Golang Backend API for Driveway Home Started Successfully**")
+	u.Log.Infof("**Golang Backend API for Driveway Home Started Successfully**")
 }
