@@ -57,6 +57,7 @@ type Phone struct {
 }
 
 // ContactID is what you get back when a user wants a certain user
+// also what the user must send to get a certain user
 type ContactID struct {
 	ID uint32 `json:"ID"`
 }

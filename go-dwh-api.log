@@ -460,3 +460,5 @@
 {"level":"ERROR","ts":"2021-02-24T22:07:19.639-0700","caller":"models/contact.go:135","msg":"record not found"}
 {"level":"WARN","ts":"2021-02-24T22:07:19.640-0700","caller":"app/errors.go:35","msg":"That user isn't associated with you."}
 {"level":"INFO","ts":"2021-02-24T22:09:13.211-0700","caller":"app/errors.go:26","msg":"That refresh token does't exist."}
+{"level":"INFO","ts":"2021-02-25T07:30:53.723-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-25T07:30:54.042-0700","caller":"go-dwh-api/main.go:23","msg":"Connected on port 8989"}
