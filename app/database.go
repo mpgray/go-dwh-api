@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/go-redis/redis/v7"
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -22,10 +21,6 @@ func init() {
 }
 
 func postgresDB() {
-	e := godotenv.Load()
-	if e != nil {
-		u.Log.Info("No .env found. This doesn't exist in all enviornment, like production so is generally ok. ")
-	}
 
 	username := os.Getenv("db_user")
 	password := os.Getenv("db_pass")

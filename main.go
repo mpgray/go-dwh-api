@@ -7,12 +7,21 @@ import (
 	u "go-dwh-api/utils"
 	"net/http"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	e := godotenv.Load()
+	if e != nil {
+		u.Log.Info("No .env found. This doesn't exist in all enviornment, like production, so is generally ok. It must exist in Development")
+	}
+
+	// List of Table data from structs
 	app.GetDB().AutoMigrate(&m.Contact{}, &m.FullName{},
 		&m.Address{}, &m.Phone{}, &m.Statement{}, &m.User{})
 
+	// Tries to get port data from .env.
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8989" //localhost
@@ -26,7 +35,7 @@ func main() {
 	handler := api.CorsConfig().Handler(router)
 	err := http.ListenAndServe(":"+port, handler) //Launch the app, visit localhost:8989/api
 	if err != nil {
-		u.Log.Fatal(err.Error())
+		u.Log.Fatal("Could not start the server. Perhaps a problem with the handler")
 	}
 
 	u.Log.Infof("**Golang Backend API for Driveway Home Started Successfully**")

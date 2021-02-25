@@ -151,3 +151,27 @@ func GetContacts(user uint32) []*Contact {
 
 	return contacts
 }
+
+// GetName by ID
+func GetName(contactID uint32, user uint32) *FullName {
+	fullName := &FullName{}
+
+	err := app.GetDB().Where("user_id = ? and contact_id = ?", user, contactID).First(fullName).Error
+	if err != nil {
+		u.Log.Error(err)
+		return nil
+	}
+	return fullName
+}
+
+// GetNames of all contacts
+func GetNames(contactID uint32) []*FullName {
+	fullNames := make([]*FullName, 0)
+
+	err := app.GetDB().Where("contact_id = ?", contactID).Find(&fullNames).Error
+	if err != nil {
+		u.Log.Error(err)
+		return nil
+	}
+	return fullNames
+}

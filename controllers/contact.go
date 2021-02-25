@@ -56,3 +56,37 @@ var GetContactsFor = func(c *gin.Context) {
 	resp["data"] = contacts
 	u.Respond(c.Writer, resp)
 }
+
+// GetName asks for an id and will return the First, Middle and Last Name associated with that ID
+var GetName = func(c *gin.Context) {
+	contactID := &models.ContactID{}
+	userID, err := models.FetchAuthenticatedID(c, &contactID)
+	if err != nil {
+		app.UnauthorizedError(c, "Unauthorized attempt to get Contact Name ")
+		return
+	}
+
+	name := models.GetName(contactID.ID, userID)
+	if name == nil {
+		app.ForbiddenError(c, "That user isn't associated with you.")
+		return
+	}
+	resp := u.Message(true, "Name Retrieved Successfully")
+	resp["FullName"] = name
+	u.Respond(c.Writer, resp)
+}
+
+// GetNamesFor gets all the names associated with an owner
+var GetNamesFor = func(c *gin.Context) {
+	metadata, err := models.ExtractTokenMetadata(c.Request)
+	if err != nil {
+		app.UnauthorizedError(c, "Unauthorized attempt to get names ")
+		return
+	}
+	userID := metadata.UserID
+
+	contacts := models.GetNames(userID)
+	resp := u.Message(true, "All names retrieved successfully.")
+	resp["data"] = contacts
+	u.Respond(c.Writer, resp)
+}

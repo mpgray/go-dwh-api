@@ -17,8 +17,10 @@ const (
 	refresh     = "/account/refresh"
 	logout      = "/account/logout"
 	newContact  = "/contact/new"
-	getContact  = "/me/contact"
-	getContacts = "/me/contacts"
+	getContact  = "/my/contact"
+	getContacts = "/my/contacts"
+	getName     = "/my/contact/name"
+	getNames    = "/my/contact/names"
 )
 
 // Router creates and serves the server
@@ -41,11 +43,9 @@ func Router() *gin.Engine {
 		authenticated.POST(getContact, controllers.GetContact)
 		authenticated.GET(getContacts, controllers.GetContactsFor)
 		authenticated.POST(refresh, controllers.Refresh)
+		authenticated.POST(getName, controllers.GetName)
+		authenticated.POST(getNames, controllers.GetNamesFor)
 	}
-
-	//  router.HandleFunc(apiPath+getContact, controllers.GetContact).Methods(http.MethodPost)
-
-	//router.NotFoundHandler = app.NotFoundHandler
 
 	return router
 }

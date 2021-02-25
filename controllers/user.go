@@ -12,7 +12,7 @@ import (
 var CreateUser = func(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		app.UnprocessableEntityError(c, "Invalid json provided during Creation of a user account "+err.Error())
+		app.UnprocessableEntityError(c, "Invalid json provided during Creation of a user account ")
 		return
 	}
 

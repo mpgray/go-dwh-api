@@ -63,6 +63,10 @@ func (user *User) validate() (map[string]interface{}, bool) {
 		u.Log.Warnf("User tried to create an account with an invalid email: %s", user.Email)
 		return u.Message(false, "Email address is Invaild"), false
 	}
+	if e.ValidateEmailByResolvingDomain(user.Email) != nil {
+		u.Log.Warnf("User tried to create an account with an invalid dns email: %s", user.Email)
+		return u.Message(false, "Email address is Invaild. The domain is unreachable"), false
+	}
 
 	passwordValidator := p.Validator{p.MinLength(6, nil), p.MaxLength(40, nil), p.CommonPassword(nil)}
 	passwordMessage := passwordValidator.Validate(user.Password)
