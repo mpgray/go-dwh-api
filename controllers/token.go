@@ -18,7 +18,7 @@ func TokenAuthenticator() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		err := models.TokenValid(c.Request)
 		if err != nil {
-			app.UnauthorizedError(c, err.Error())
+			app.UnauthorizedError(c, "You are not authorized")
 			c.Abort()
 			return
 		}
@@ -31,7 +31,7 @@ func TokenAuthenticator() gin.HandlerFunc {
 var Refresh = func(c *gin.Context) {
 	mapToken := map[string]string{}
 	if err := c.ShouldBindJSON(&mapToken); err != nil {
-		app.UnprocessableEntityError(c, err.Error())
+		app.UnprocessableEntityError(c, "Incorrect Json during refresh")
 		return
 	}
 	refreshToken := mapToken["refresh_token"]
@@ -51,7 +51,7 @@ var Refresh = func(c *gin.Context) {
 	}
 	//is token valid?
 	if _, ok := token.Claims.(jwt.Claims); !ok && !token.Valid {
-		app.UnauthorizedError(c, err.Error())
+		app.UnauthorizedError(c, "Token Invalid")
 		return
 	}
 	//Since token is valid, get the uuid:
@@ -59,32 +59,32 @@ var Refresh = func(c *gin.Context) {
 	if ok && token.Valid {
 		refreshUUID, ok := claims["refresh_uuid"].(string) //convert the interface to string
 		if !ok {
-			app.UnprocessableEntityError(c, err.Error())
+			app.UnprocessableEntityError(c, "Bad claim information")
 			return
 		}
 		userID64, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 32)
 		userID := uint32(userID64)
 
 		if err != nil {
-			app.UnprocessableEntityError(c, err.Error())
+			app.UnprocessableEntityError(c, "JSON Error during user id from cache.")
 			return
 		}
 		//Delete the previous Refresh Token
 		deleted, delErr := deleteAuth(refreshUUID)
 		if delErr != nil || deleted == 0 { //if any goes wrong
-			app.UnauthorizedError(c, delErr.Error())
+			app.UnauthorizedError(c, "That refresh token does't exist.")
 			return
 		}
 		//Create new pairs of refresh and access tokens
 		ts, createErr := models.CreateToken(userID)
 		if createErr != nil {
-			app.ForbiddenError(c, createErr.Error())
+			app.ForbiddenError(c, "Restriced access during token creation")
 			return
 		}
 		//save the tokens metadata to redis
 		saveErr := createAuth(userID, ts)
 		if saveErr != nil {
-			app.ForbiddenError(c, saveErr.Error())
+			app.ForbiddenError(c, "Restriced access during redis cache creation")
 			return
 		}
 		tokens := map[string]string{
@@ -93,6 +93,6 @@ var Refresh = func(c *gin.Context) {
 		}
 		c.JSON(http.StatusCreated, tokens)
 	} else {
-		app.UnauthorizedError(c, "Your refresh token has expired")
+		app.UnauthorizedError(c, "Your session has expired")
 	}
 }

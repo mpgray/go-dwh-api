@@ -26,7 +26,7 @@ func init() {
 func getEncoder() zapcore.Encoder {
 
 	encoderConfig := zap.NewProductionEncoderConfig()
-	switch os.Getenv("go_logger") {
+	switch os.Getenv("zap_logger") {
 	case "Example":
 		encoderConfig = zap.NewDevelopmentEncoderConfig()
 	case "Developer":

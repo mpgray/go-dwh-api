@@ -121,7 +121,7 @@ func (contact *Contact) CreateContact() map[string]interface{} {
 		return resp
 	}
 	app.GetDB().Create(contact)
-	resp := u.Message(true, "success")
+	resp := u.Message(true, "Contact successfully created.")
 	resp["contact"] = contact
 	return resp
 }
@@ -130,7 +130,7 @@ func (contact *Contact) CreateContact() map[string]interface{} {
 func GetContact(contactID uint32, user uint32) *Contact {
 	contact := &Contact{}
 
-	err := app.GetDB().Where("user_id = ? and ID = ?", user, contactID).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Preload("Statement").First(contact).Error
+	err := app.GetDB().Where("user_id = ? and ID = ?", user, contactID).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").First(contact).Error
 	if err != nil {
 		u.Log.Error(err)
 		return nil
@@ -143,7 +143,7 @@ func GetContacts(user uint32) []*Contact {
 
 	contacts := make([]*Contact, 0)
 
-	err := app.GetDB().Where("user_id = ?", user).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Preload("Statement").Find(&contacts).Error
+	err := app.GetDB().Where("user_id = ?", user).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Find(&contacts).Error
 	if err != nil {
 		u.Log.Error(err)
 	}

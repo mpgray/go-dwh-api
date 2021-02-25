@@ -19,7 +19,7 @@ import (
 var Login = func(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		app.UnprocessableEntityError(c, "Invalid json provided during login "+err.Error())
+		app.UnprocessableEntityError(c, "Invalid json provided during login ")
 		return
 	}
 
@@ -44,12 +44,12 @@ var Login = func(c *gin.Context) {
 
 	ts, err := models.CreateToken(dbUser.ID)
 	if err != nil {
-		app.UnprocessableEntityError(c, err.Error())
+		app.UnprocessableEntityError(c, "JSON incorrect during the creation of the Tokens")
 		return
 	}
-	saveErr := createAuth(user.ID, ts)
+	saveErr := createAuth(dbUser.ID, ts)
 	if saveErr != nil {
-		app.UnprocessableEntityError(c, saveErr.Error())
+		app.UnprocessableEntityError(c, "JSON incorrect during the creation if redis pairs")
 		return
 	}
 	tokens := map[string]string{
@@ -69,7 +69,7 @@ func Logout(c *gin.Context) {
 	}
 	deleted, delErr := deleteAuth(au.AccessUUID)
 	if delErr != nil || deleted == 0 { //if any goes wrong
-		app.UnauthorizedError(c, delErr.Error())
+		app.UnauthorizedError(c, "Error logging out")
 		return
 	}
 	c.JSON(http.StatusOK, "Successfully logged out")

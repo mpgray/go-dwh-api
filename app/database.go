@@ -24,7 +24,7 @@ func init() {
 func postgresDB() {
 	e := godotenv.Load()
 	if e != nil {
-		u.Log.Info("No .env found. This doesn't exist in all enviornment, like production so is generally ok. " + e.Error())
+		u.Log.Info("No .env found. This doesn't exist in all enviornment, like production so is generally ok. ")
 	}
 
 	username := os.Getenv("db_user")
@@ -41,7 +41,7 @@ func postgresDB() {
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
-		u.Log.Fatal(err.Error() + " Could not connect to postgress database so startup fails.")
+		u.Log.Fatalf("Could not connect to postgress database so startup fails.")
 	}
 
 	db = conn
@@ -58,7 +58,7 @@ func redisCache() {
 	})
 	_, err := redisClient.Ping().Result()
 	if err != nil {
-		u.Log.Fatal(err.Error() + " Could not connect to Redis cache so startup fails.")
+		u.Log.Fatal("Could not connect to Redis cache so startup fails.")
 	}
 }
 
