@@ -85,8 +85,8 @@ var GetNamesFor = func(c *gin.Context) {
 	}
 	userID := metadata.UserID
 
-	contacts := models.GetNames(userID)
+	names := models.GetNames(userID)
 	resp := u.Message(true, "All names retrieved successfully.")
-	resp["data"] = contacts
+	resp["data"] = names
 	u.Respond(c.Writer, resp)
 }

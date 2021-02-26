@@ -7,15 +7,9 @@ import (
 	u "go-dwh-api/utils"
 	"net/http"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	e := godotenv.Load()
-	if e != nil {
-		u.Log.Info("No .env found. This doesn't exist in all enviornment, like production, so is generally ok. It must exist in Development")
-	}
 
 	// List of Table data from structs
 	app.GetDB().AutoMigrate(&m.Contact{}, &m.FullName{},

@@ -44,7 +44,7 @@ func Router() *gin.Engine {
 		authenticated.GET(getContacts, controllers.GetContactsFor)
 		authenticated.POST(refresh, controllers.Refresh)
 		authenticated.POST(getName, controllers.GetName)
-		authenticated.POST(getNames, controllers.GetNamesFor)
+		authenticated.GET(getNames, controllers.GetNamesFor)
 	}
 
 	return router

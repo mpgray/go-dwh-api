@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/go-redis/redis/v7"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -16,6 +17,11 @@ var db *gorm.DB
 var redisClient *redis.Client
 
 func init() {
+	e := godotenv.Load()
+	if e != nil {
+		u.Log.Info("No .env found. This doesn't exist in all enviornment, like production, so is generally ok. It must exist in Development")
+	}
+
 	postgresDB()
 	redisCache()
 }

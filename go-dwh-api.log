@@ -462,3 +462,27 @@
 {"level":"INFO","ts":"2021-02-24T22:09:13.211-0700","caller":"app/errors.go:26","msg":"That refresh token does't exist."}
 {"level":"INFO","ts":"2021-02-25T07:30:53.723-0700","caller":"app/database.go:38","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
 {"level":"INFO","ts":"2021-02-25T07:30:54.042-0700","caller":"go-dwh-api/main.go:23","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-26T07:30:15.955-0700","caller":"app/database.go:33","msg":"Conntecting to DB... host= user= dbname= port= sslmode= password="}
+{"level":"FATAL","ts":"2021-02-26T07:30:15.957-0700","caller":"app/database.go:39","msg":"Could not connect to postgress database so startup fails."}
+{"level":"INFO","ts":"2021-02-26T07:32:55.311-0700","caller":"app/database.go:33","msg":"Conntecting to DB... host= user= dbname= port= sslmode= password="}
+{"level":"FATAL","ts":"2021-02-26T07:32:55.313-0700","caller":"app/database.go:39","msg":"Could not connect to postgress database so startup fails."}
+{"level":"INFO","ts":"2021-02-26T07:33:50.892-0700","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-26T07:33:51.412-0700","caller":"go-dwh-api/main.go:26","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-26T07:56:40.198-0700","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-26T07:56:40.514-0700","caller":"go-dwh-api/main.go:26","msg":"Connected on port 8989"}
+{"level":"ERROR","ts":"2021-02-26T07:59:44.374-0700","caller":"app/errors.go:54","msg":"Json Wrong during authentication"}
+{"level":"INFO","ts":"2021-02-26T07:59:44.375-0700","caller":"app/errors.go:26","msg":"Unauthorized attempt to get Contact Name "}
+{"level":"ERROR","ts":"2021-02-26T08:00:02.297-0700","caller":"app/errors.go:54","msg":"Json Wrong during authentication"}
+{"level":"INFO","ts":"2021-02-26T08:00:02.298-0700","caller":"app/errors.go:26","msg":"Unauthorized attempt to get Contact Name "}
+{"level":"ERROR","ts":"2021-02-26T08:00:35.428-0700","caller":"models/contact.go:161","msg":"ERROR: column \"user_id\" does not exist (SQLSTATE 42703)"}
+{"level":"WARN","ts":"2021-02-26T08:00:35.428-0700","caller":"app/errors.go:35","msg":"That user isn't associated with you."}
+{"level":"ERROR","ts":"2021-02-26T08:00:40.376-0700","caller":"models/contact.go:161","msg":"ERROR: column \"user_id\" does not exist (SQLSTATE 42703)"}
+{"level":"WARN","ts":"2021-02-26T08:00:40.376-0700","caller":"app/errors.go:35","msg":"That user isn't associated with you."}
+{"level":"ERROR","ts":"2021-02-26T08:00:47.255-0700","caller":"models/contact.go:161","msg":"ERROR: column \"user_id\" does not exist (SQLSTATE 42703)"}
+{"level":"WARN","ts":"2021-02-26T08:00:47.255-0700","caller":"app/errors.go:35","msg":"That user isn't associated with you."}
+{"level":"ERROR","ts":"2021-02-26T08:01:01.663-0700","caller":"models/contact.go:161","msg":"ERROR: column \"user_id\" does not exist (SQLSTATE 42703)"}
+{"level":"WARN","ts":"2021-02-26T08:01:01.663-0700","caller":"app/errors.go:35","msg":"That user isn't associated with you."}
+{"level":"ERROR","ts":"2021-02-26T08:01:35.247-0700","caller":"models/contact.go:161","msg":"ERROR: column \"user_id\" does not exist (SQLSTATE 42703)"}
+{"level":"WARN","ts":"2021-02-26T08:01:35.248-0700","caller":"app/errors.go:35","msg":"That user isn't associated with you."}
+{"level":"ERROR","ts":"2021-02-26T08:01:40.227-0700","caller":"models/contact.go:161","msg":"ERROR: column \"user_id\" does not exist (SQLSTATE 42703)"}
+{"level":"WARN","ts":"2021-02-26T08:01:40.228-0700","caller":"app/errors.go:35","msg":"That user isn't associated with you."}
