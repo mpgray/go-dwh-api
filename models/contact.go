@@ -10,54 +10,64 @@ import (
 	u "go-dwh-api/utils"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 // Contact gets the Name, phone and UserID of the contact
 type Contact struct {
-	gorm.Model
-	ID      uint32
-	UserID  uint32   `json:"userId"` //The user that this contact belongs to
-	Name    FullName `gorm:"foreignkey:ContactID"`
-	Address Address  `gorm:"foreignkey:ContactID"` // Mailing address
+	gorm.Model `json:"-"`
+	ID         uint32    //This user's ID
+	UserID     uint32    `json:"-"` //The user that this contact belongs to
+	Name       *FullName `gorm:"foreignkey:ContactID" json:"name,omitempty"`
+	Address    *Address  `gorm:"foreignkey:ContactID" json:"address,omitempty"` // Mailing address
 	//Properties []Address `json:"propertyAddresses" gorm:"foreignKey:ID"` // The properties owned by the owner
-	Phone Phone `gorm:"foreignkey:ContactID"`
+	Phone *Phone `gorm:"foreignkey:ContactID" json:"phone,omitempty"`
 }
+
+const (
+	// NAME contact sub category
+	NAME string = "Name"
+	// ADDRESS contact sub category
+	ADDRESS string = "Address"
+	// PHONE contact sub category
+	PHONE string = "Phone"
+)
 
 //FullName contains owners first middle and last name
 type FullName struct {
-	gorm.Model
-	ContactID uint32
-	First     string `json:"first"`
-	Middle    string `json:"middle"`
-	Last      string `json:"last"`
+	gorm.Model `json:"-"`
+	ContactID  uint32 `json:"-"`
+	First      string `json:"first"`
+	Middle     string `json:"middle,omitempty"`
+	Last       string `json:"last"`
 }
 
 //Address contains all of the address information
 type Address struct {
-	gorm.Model
-	ContactID uint32
-	Line1     string `json:"line1"`
-	Line2     string `json:"line2"`
-	Unit      string `json:"unit"`
-	City      string `json:"city"`
-	State     string `json:"state"`
-	Zip       string `json:"zip"`
-	Zip4      string `json:"zip4"`
+	gorm.Model `json:"-"`
+	ContactID  uint32 `json:"-"`
+	Line1      string `json:"line1"`
+	Line2      string `json:"line2,omitempty"`
+	Unit       string `json:"unit,omitempty"`
+	City       string `json:"city"`
+	State      string `json:"state"`
+	Zip        string `json:"zip"`
+	Zip4       string `json:"zip4,omitempty"`
 }
 
 // Phone Contains different phone numbers of the home owner
 type Phone struct {
-	gorm.Model
-	ContactID uint32
-	Cell      string       `json:"cellPhone"`
-	Home      string       `json:"homePhone"`
-	Work      string       `json:"workPhone"`
-	Other     string       `json:"otherPhone"`
-	Primary   PrimaryPhone `json:"primaryPhone"`
+	gorm.Model `json:"-"`
+	ContactID  uint32       `json:"-"`
+	Cell       string       `json:"cellPhone,omitempty"`
+	Home       string       `json:"homePhone,omitempty"`
+	Work       string       `json:"workPhone,omitempty"`
+	Other      string       `json:"otherPhone,omitempty"`
+	Primary    PrimaryPhone `json:"primaryPhone"`
 }
 
 // ContactID is what you get back when a user wants a certain user
-// also what the user must send to get a certain user
+// also what the user must send to get a certain user { ID: 0 }
 type ContactID struct {
 	ID uint32 `json:"ID"`
 }
@@ -131,7 +141,7 @@ func (contact *Contact) CreateContact() map[string]interface{} {
 func GetContact(contactID uint32, user uint32) *Contact {
 	contact := &Contact{}
 
-	err := app.GetDB().Where("user_id = ? and ID = ?", user, contactID).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").First(contact).Error
+	err := app.GetDB().Where("user_id = ? and ID = ?", user, contactID).Preload(clause.Associations).First(&contact).Error
 	if err != nil {
 		u.Log.Error(err)
 		return nil
@@ -144,7 +154,7 @@ func GetContacts(user uint32) []*Contact {
 
 	contacts := make([]*Contact, 0)
 
-	err := app.GetDB().Where("user_id = ?", user).Preload("Name").Preload("Address").Preload("Phone").Preload("Address").Find(&contacts).Error
+	err := app.GetDB().Where("user_id = ?", user).Preload(clause.Associations).Find(&contacts).Error
 	if err != nil {
 		u.Log.Error(err)
 	}
@@ -152,26 +162,49 @@ func GetContacts(user uint32) []*Contact {
 	return contacts
 }
 
-// GetName by ID
-func GetName(contactID uint32, user uint32) *FullName {
-	fullName := &FullName{}
+// GetNames of all contacts
+func GetNames(user uint32) []*Contact {
+	fullNames := make([]*Contact, 0)
 
-	err := app.GetDB().Where("user_id = ? and contact_id = ?", user, contactID).First(fullName).Error
+	err := app.GetDB().Where("user_id = ?", user).Joins("Name").Find(&fullNames).Error
 	if err != nil {
 		u.Log.Error(err)
-		return nil
 	}
-	return fullName
+
+	return fullNames
 }
 
-// GetNames of all contacts
-func GetNames(contactID uint32) []*FullName {
-	fullNames := make([]*FullName, 0)
+//SearchContacts gets the name and addresses of the contacts to search
+func SearchContacts(user uint32) []*Contact {
+	contacts := make([]*Contact, 0)
 
-	err := app.GetDB().Where("contact_id = ?", contactID).Find(&fullNames).Error
+	err := app.GetDB().Where("user_id = ?", user).Joins(NAME).Joins(ADDRESS).Find(&contacts).Error
+	if err != nil {
+		u.Log.Error(err)
+	}
+
+	return contacts
+}
+
+//GetAllContactInfo takes the category and user id and returns that users contacts' category, for example phone numbers
+func GetAllContactInfo(user uint32, category string) []*Contact {
+	contacts := make([]*Contact, 0)
+
+	err := app.GetDB().Where("user_id = ?", user).Joins(category).Find(&contacts).Error
+	if err != nil {
+		u.Log.Error(err)
+	}
+
+	return contacts
+}
+
+// GetContactInfo gets the sub category of a contact. For example, phone number.
+func GetContactInfo(user uint32, contactID uint32, category string) *Contact {
+	contact := &Contact{}
+	err := app.GetDB().Where("user_id = ? and contact_id = ?", user, contactID).Joins(category).First(&contact).Error
 	if err != nil {
 		u.Log.Error(err)
 		return nil
 	}
-	return fullNames
+	return contact
 }

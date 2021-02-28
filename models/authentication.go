@@ -27,7 +27,6 @@ func FetchAuthenticatedID(c *gin.Context, j interface{}) (uint32, error) {
 
 	metadata, err := ExtractTokenMetadata(c.Request)
 	if err != nil {
-
 		return 0, err
 	}
 	return metadata.UserID, err

@@ -14,13 +14,18 @@ const (
 	newUser = "/user/new"
 	login   = "/account/login"
 	// Needs authorization
-	refresh     = "/account/refresh"
-	logout      = "/account/logout"
-	newContact  = "/contact/new"
-	getContact  = "/my/contact"
-	getContacts = "/my/contacts"
-	getName     = "/my/contact/name"
-	getNames    = "/my/contact/names"
+	refresh        = "/account/refresh"
+	logout         = "/account/logout"
+	newContact     = "/contact/new"
+	getContact     = "/my/contact"
+	getContacts    = "/my/contacts"
+	searchContacts = "/my/contacts/search"
+	getName        = "/my/contact/name"
+	getNames       = "/my/contact/names"
+	getAddress     = "/my/contact/address"
+	getAddresses   = "/my/contact/addresses"
+	getPhone       = "/my/contact/phone"
+	getPhones      = "/my/contact/phones"
 )
 
 // Router creates and serves the server
@@ -32,6 +37,7 @@ func Router() *gin.Engine {
 	{
 		unauthenticated.POST(login, controllers.Login)
 		unauthenticated.POST(newUser, controllers.CreateUser)
+		unauthenticated.POST(refresh, controllers.Refresh)
 	}
 
 	authenticated := router.Group("/api/v1/auth")
@@ -42,9 +48,14 @@ func Router() *gin.Engine {
 		authenticated.POST(newContact, controllers.CreateContact)
 		authenticated.POST(getContact, controllers.GetContact)
 		authenticated.GET(getContacts, controllers.GetContactsFor)
-		authenticated.POST(refresh, controllers.Refresh)
+		authenticated.GET(searchContacts, controllers.SearchContactsFor)
 		authenticated.POST(getName, controllers.GetName)
 		authenticated.GET(getNames, controllers.GetNamesFor)
+		authenticated.POST(getAddress, controllers.GetAddress)
+		authenticated.POST(getPhone, controllers.GetPhone)
+		authenticated.GET(getAddresses, controllers.GetAddressesFor)
+		authenticated.GET(getPhones, controllers.GetPhonesFor)
+
 	}
 
 	return router

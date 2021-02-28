@@ -39,7 +39,8 @@ func postgresDB() {
 	u.Log.Infof("Conntecting to DB... host=%s user=%s dbname=%s port=%s sslmode=%s password=%s", dbHost, username, dbName, dbPort, sslMode, password)
 
 	conn, err := gorm.Open(postgres.Open(dbURI), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
+		Logger:      logger.Default.LogMode(logger.Info),
+		PrepareStmt: true,
 	})
 	if err != nil {
 		u.Log.Fatalf("Could not connect to postgress database so startup fails.")
