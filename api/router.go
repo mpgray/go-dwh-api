@@ -47,6 +47,8 @@ func Router() *gin.Engine {
 	{
 		authenticated.POST(refresh, controllers.Refresh)
 		authenticated.POST(logout, controllers.Logout)
+		authenticated.POST(getStatement, controllers.GetStatement)
+		// All contact endpoints
 		authenticated.POST(newContact, controllers.CreateContact)
 		authenticated.POST(getContact, controllers.GetContact)
 		authenticated.GET(getContacts, controllers.GetContactsFor)
@@ -57,7 +59,6 @@ func Router() *gin.Engine {
 		authenticated.POST(getPhone, controllers.GetPhone)
 		authenticated.GET(getAddresses, controllers.GetAddressesFor)
 		authenticated.GET(getPhones, controllers.GetPhonesFor)
-		authenticated.post(getStatement, controllers.GetStatement)
 	}
 
 	return router

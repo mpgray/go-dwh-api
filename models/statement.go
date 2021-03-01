@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 // Statement of billing for the owner
@@ -60,7 +61,7 @@ const (
 func GetCurrentStatement(contactID uint32) *Statement {
 
 	statement := &Statement{}
-	err := app.GetDB().Table("statements").Where("contact_id = ?", contactID).First(&statement).Error
+	err := app.GetDB().Where("contact_id = ?", contactID).Preload(clause.Associations).First(&statement).Error
 	if err != nil {
 		u.Log.Error(err)
 		return nil
@@ -87,7 +88,7 @@ func GetStatementHistory(user uint32) []*Statement {
 func GetStatementHistory(user uint32) []*Statement {
 	statements := make([]*Statement, 0)
 
-	err := app.GetDB().Where("user_id = ?", user).Find(&statements).Error
+	err := app.GetDB().Where("user_id = ?", user).Preload(clause.Associations).Find(&statements).Error
 	if err != nil {
 		u.Log.Error(err)
 	}

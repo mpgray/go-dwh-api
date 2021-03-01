@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetStatement gets the current statmen of a single user
 var GetStatement = func(c *gin.Context) {
 	contactID := &models.ContactID{}
 	_, err := models.FetchAuthenticatedID(c, &contactID)
@@ -17,11 +18,11 @@ var GetStatement = func(c *gin.Context) {
 	}
 
 	statement := models.GetCurrentStatement(contactID.ID)
-	if contact == nil {
-		app.ForbiddenError(c, "That user isn't associated with you.")
+	if statement == nil {
+		app.ForbiddenError(c, "That statement isn't associated with you.")
 		return
 	}
 	resp := u.Message(true, "Contact Retrieved Successfully")
-	resp["statement"] = contact
+	resp["statement"] = statement
 	u.Respond(c.Writer, resp)
 }
