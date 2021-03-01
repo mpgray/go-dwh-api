@@ -10,28 +10,30 @@ import (
 
 // Statement of billing for the owner
 type Statement struct {
-	ContactID   uint
-	DueDate     time.Time  `json:"dueDate"`
-	Balance     float64    `json:"balance"`
-	Assessments Assessment `json:"assessment" gorm:"foreignKey:ContactID"`
-	PastDue     float64    `json:"pastDue"`
-	Monthly     Monthly    `json:"monthlyStatement"  gorm:"foreignKey:ContactID"`
+	gorm.Model  `json:"-"`
+	ContactID   uint32      `json:"-"`
+	DueDate     time.Time   `json:"dueDate"`
+	Balance     float64     `json:"balance"`
+	Assessments *Assessment `json:"assessment,omitempty" gorm:"foreignKey:StatementID"`
+	PastDue     float64     `json:"pastDue"`
+	Monthly     Monthly     `json:"monthlyStatement"  gorm:"foreignKey:StatementID"`
 }
 
 // Assessment is different then a one time Charge as it is possible to be paid in installments.
 //
 type Assessment struct {
-	gorm.Model
-	ID      uint
-	Name    string  `json:"name"`
-	Amount  float64 `json:"amount"`
-	Balance float64 `json:"balance"`
+	gorm.Model  `json:"-"`
+	StatementID uint32  `json:"-"`
+	Name        string  `json:"name"`
+	Amount      float64 `json:"amount"`
+	Balance     float64 `json:"balance"`
 }
 
 // Monthly is an archive of the last year of statements by month.
 type Monthly struct {
-	ID    uint
-	Month Month
+	gorm.Model  `json:"-"`
+	StatementID uint `json:"-"`
+	Month       Month
 }
 
 // Month is  an enum with 0 current month and actual months
@@ -66,6 +68,7 @@ func GetCurrentStatement(id uint32) *Statement {
 	return statement
 }
 
+/*
 // GetStatementHistory of the account number for the past year.
 func GetStatementHistory(user uint32) []*Statement {
 
@@ -74,6 +77,18 @@ func GetStatementHistory(user uint32) []*Statement {
 	if err != nil {
 		u.Log.Error(err)
 		return nil
+	}
+
+	return statements
+}
+*/
+// GetStatementHistory of all contacts
+func GetStatementHistory(user uint32) []*Statement {
+	statements := make([]*Statement, 0)
+
+	err := app.GetDB().Where("user_id = ?", user).Find(&statements).Error
+	if err != nil {
+		u.Log.Error(err)
 	}
 
 	return statements

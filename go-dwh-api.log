@@ -652,3 +652,50 @@
 {"level":"INFO","ts":"2021-02-28T14:01:54.428-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
 {"level":"INFO","ts":"2021-02-28T14:02:01.457-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
 {"level":"INFO","ts":"2021-02-28T14:02:13.050-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T14:44:08.711-0700","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-28T14:44:09.009-0700","caller":"go-dwh-api/main.go:26","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-28T14:46:20.225-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T14:52:15.519-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T14:52:24.120-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T14:52:41.999-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T14:52:54.603-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T14:53:16.070-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T14:53:21.275-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T14:54:03.574-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T15:05:11.016-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T15:07:38.859-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T15:07:58.825-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T15:25:45.676-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T19:31:40.793-0700","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-02-28T19:31:41.137-0700","caller":"go-dwh-api/main.go:26","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-02-28T19:33:50.117-0700","caller":"app/errors.go:26","msg":"That refresh token does't exist."}
+{"level":"ERROR","ts":"2021-02-28T19:34:20.264-0700","caller":"app/errors.go:54","msg":"Incorrect Json during refresh"}
+{"level":"INFO","ts":"2021-02-28T20:10:02.534-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T20:11:35.390-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T20:20:57.259-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T20:21:40.344-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T20:29:03.336-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T20:30:07.151-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T20:30:32.985-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T20:37:59.197-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T20:39:50.230-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T20:41:58.333-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-02-28T20:56:03.022-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-03-01T07:37:57.333-0700","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-03-01T07:37:57.605-0700","caller":"go-dwh-api/main.go:26","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-03-01T07:45:13.734-0700","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-03-01T07:45:13.982-0700","caller":"go-dwh-api/main.go:26","msg":"Connected on port 8989"}
+{"level":"INFO","ts":"2021-03-01T07:48:55.928-0700","caller":"app/errors.go:26","msg":"Refresh token expired"}
+{"level":"INFO","ts":"2021-03-01T07:49:06.165-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:06:31.956-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:07:27.575-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:07:31.090-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:08:15.361-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:09:54.728-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:11:43.034-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:12:33.885-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:13:48.656-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:15:23.930-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:15:25.549-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:17:06.563-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-01T08:17:07.327-0700","caller":"app/errors.go:26","msg":"You are not authorized"}

@@ -37,13 +37,14 @@ func Router() *gin.Engine {
 	{
 		unauthenticated.POST(login, controllers.Login)
 		unauthenticated.POST(newUser, controllers.CreateUser)
-		unauthenticated.POST(refresh, controllers.Refresh)
+
 	}
 
 	authenticated := router.Group("/api/v1/auth")
 	// Group that requires an authenticated user
 	authenticated.Use(controllers.TokenAuthenticator())
 	{
+		authenticated.POST(refresh, controllers.Refresh)
 		authenticated.POST(logout, controllers.Logout)
 		authenticated.POST(newContact, controllers.CreateContact)
 		authenticated.POST(getContact, controllers.GetContact)

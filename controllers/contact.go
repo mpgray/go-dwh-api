@@ -53,7 +53,7 @@ var GetContactsFor = func(c *gin.Context) {
 
 	contacts := models.GetContacts(userID)
 	resp := u.Message(true, "All Contacts retrieved successfully.")
-	resp["contacts"] = contacts
+	resp["contact"] = contacts
 	u.Respond(c.Writer, resp)
 }
 
@@ -68,10 +68,11 @@ var GetNamesFor = func(c *gin.Context) {
 
 	names := models.GetAllContactInfo(userID, models.NAME)
 	resp := u.Message(true, "All names retrieved successfully.")
-	resp["names"] = names
+	resp["name"] = names
 	u.Respond(c.Writer, resp)
 }
 
+// GetName gets the name of one of the contacts
 var GetName = func(c *gin.Context) {
 	contactID := &models.ContactID{}
 	userID, err := models.FetchAuthenticatedID(c, &contactID)
@@ -86,10 +87,11 @@ var GetName = func(c *gin.Context) {
 		return
 	}
 	resp := u.Message(true, models.NAME+" Retrieved Successfully")
-	resp[models.NAME] = name
+	resp["name"] = name
 	u.Respond(c.Writer, resp)
 }
 
+// GetAddress gets the address of one of the contacts
 var GetAddress = func(c *gin.Context) {
 	contactID := &models.ContactID{}
 	userID, err := models.FetchAuthenticatedID(c, &contactID)
@@ -104,10 +106,11 @@ var GetAddress = func(c *gin.Context) {
 		return
 	}
 	resp := u.Message(true, models.ADDRESS+" Retrieved Successfully")
-	resp[models.NAME] = address
+	resp["address"] = address
 	u.Respond(c.Writer, resp)
 }
 
+// GetAddressesFor gets all addresses for contacts
 var GetAddressesFor = func(c *gin.Context) {
 	metadata, err := models.ExtractTokenMetadata(c.Request)
 	if err != nil {
@@ -118,10 +121,11 @@ var GetAddressesFor = func(c *gin.Context) {
 
 	addresses := models.GetAllContactInfo(userID, models.ADDRESS)
 	resp := u.Message(true, "All Addresses retrieved successfully.")
-	resp["addresses"] = addresses
+	resp["address"] = addresses
 	u.Respond(c.Writer, resp)
 }
 
+// GetPhone gets one phone number from one contact
 var GetPhone = func(c *gin.Context) {
 	contactID := &models.ContactID{}
 	userID, err := models.FetchAuthenticatedID(c, &contactID)
@@ -136,10 +140,11 @@ var GetPhone = func(c *gin.Context) {
 		return
 	}
 	resp := u.Message(true, models.PHONE+" Retrieved Successfully")
-	resp[models.PHONE] = phone
+	resp["phone"] = phone
 	u.Respond(c.Writer, resp)
 }
 
+// GetPhonesFor get all phone numbers from contacts
 var GetPhonesFor = func(c *gin.Context) {
 	metadata, err := models.ExtractTokenMetadata(c.Request)
 	if err != nil {
@@ -150,10 +155,11 @@ var GetPhonesFor = func(c *gin.Context) {
 
 	phones := models.GetAllContactInfo(userID, models.PHONE)
 	resp := u.Message(true, "All Phone Numbers retrieved successfully.")
-	resp["phones"] = phones
+	resp["phone"] = phones
 	u.Respond(c.Writer, resp)
 }
 
+// SearchContactsFor searches for contact by address and name
 var SearchContactsFor = func(c *gin.Context) {
 	metadata, err := models.ExtractTokenMetadata(c.Request)
 	if err != nil {
@@ -162,8 +168,8 @@ var SearchContactsFor = func(c *gin.Context) {
 	}
 	userID := metadata.UserID
 
-	phones := models.SearchContacts(userID)
+	contact := models.SearchContacts(userID)
 	resp := u.Message(true, "Searching...")
-	resp["search"] = phones
+	resp["search"] = contact
 	u.Respond(c.Writer, resp)
 }
