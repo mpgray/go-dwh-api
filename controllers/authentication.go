@@ -61,7 +61,7 @@ var Login = func(c *gin.Context) {
 
 // Logout removes the redis data from the server.
 // by calling DeleteAuth
-func Logout(c *gin.Context) {
+var Logout = func (c *gin.Context) {
 	au, err := models.ExtractTokenMetadata(c.Request)
 	if err != nil {
 		app.UnauthorizedError(c, err.Error())

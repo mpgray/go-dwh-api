@@ -16,11 +16,10 @@ import (
 // Contact gets the Name, phone and UserID of the contact
 type Contact struct {
 	gorm.Model `json:"-"`
-	ID         uint32       //This user's ID
-	UserID     uint32       `json:"-"` //The user that this contact belongs to
-	Name       *FullName    `gorm:"foreignkey:ContactID" json:"name,omitempty"`
-	Address    *Address     `gorm:"foreignkey:ContactID" json:"address,omitempty"` // Mailing address
-	Statement  *[]Statement `gorm:"foreignkey:ContactID" json:"statement,omitempty"`
+	ID         uint32    //This user's ID
+	UserID     uint32    `json:"-"` //The user that this contact belongs to
+	Name       *FullName `gorm:"foreignkey:ContactID" json:"name,omitempty"`
+	Address    *Address  `gorm:"foreignkey:ContactID" json:"address,omitempty"` // Mailing address
 	//Properties []Address `json:"propertyAddresses" gorm:"foreignKey:ID"` // The properties owned by the owner
 	Phone *Phone `gorm:"foreignkey:ContactID" json:"phone,omitempty"`
 }

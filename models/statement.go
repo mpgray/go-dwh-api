@@ -57,10 +57,10 @@ const (
 )
 
 // GetCurrentStatement of the account number.
-func GetCurrentStatement(id uint32) *Statement {
+func GetCurrentStatement(contactID uint32) *Statement {
 
 	statement := &Statement{}
-	err := app.GetDB().Table("statements").Where("id = ?", id).First(statement).Error
+	err := app.GetDB().Table("statements").Where("contact_id = ?", contactID).First(&statement).Error
 	if err != nil {
 		u.Log.Error(err)
 		return nil
@@ -82,6 +82,7 @@ func GetStatementHistory(user uint32) []*Statement {
 	return statements
 }
 */
+
 // GetStatementHistory of all contacts
 func GetStatementHistory(user uint32) []*Statement {
 	statements := make([]*Statement, 0)

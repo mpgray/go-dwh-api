@@ -1,6 +1,6 @@
 module go-dwh-api
 
-go 1.16
+go 1.15
 
 require (
 	github.com/dchest/validator v0.0.0-20191217151620-8e45250f2371

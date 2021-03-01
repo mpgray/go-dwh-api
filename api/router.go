@@ -17,6 +17,7 @@ const (
 	refresh        = "/account/refresh"
 	logout         = "/account/logout"
 	newContact     = "/contact/new"
+	getStatement   = "/statement"
 	getContact     = "/my/contact"
 	getContacts    = "/my/contacts"
 	searchContacts = "/my/contacts/search"
@@ -56,7 +57,7 @@ func Router() *gin.Engine {
 		authenticated.POST(getPhone, controllers.GetPhone)
 		authenticated.GET(getAddresses, controllers.GetAddressesFor)
 		authenticated.GET(getPhones, controllers.GetPhonesFor)
-
+		authenticated.post(getStatement, controllers.GetStatement)
 	}
 
 	return router
