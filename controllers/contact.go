@@ -13,7 +13,7 @@ var CreateContact = func(c *gin.Context) {
 	contact := &models.Contact{}
 	userID, err := models.FetchAuthenticatedID(c, &contact)
 	if err != nil {
-		app.UnauthorizedError(c, "Unauthorized attempt to get a contact.")
+		app.ForbiddenError(c, "Forbidden attempt to get a contact.")
 		return
 	}
 
@@ -28,7 +28,7 @@ var GetContact = func(c *gin.Context) {
 	contactID := &models.ContactID{}
 	userID, err := models.FetchAuthenticatedID(c, &contactID)
 	if err != nil {
-		app.UnauthorizedError(c, "Unauthorized attempt to get a contact ")
+		app.ForbiddenError(c, "Forbidden attempt to get a contact ")
 		return
 	}
 
@@ -77,7 +77,7 @@ var GetName = func(c *gin.Context) {
 	contactID := &models.ContactID{}
 	userID, err := models.FetchAuthenticatedID(c, &contactID)
 	if err != nil {
-		app.UnauthorizedError(c, "Unauthorized attempt to get Contact "+models.NAME)
+		app.ForbiddenError(c, "Forbidden attempt to get Contact "+models.NAME)
 		return
 	}
 
@@ -96,7 +96,7 @@ var GetAddress = func(c *gin.Context) {
 	contactID := &models.ContactID{}
 	userID, err := models.FetchAuthenticatedID(c, &contactID)
 	if err != nil {
-		app.UnauthorizedError(c, "Unauthorized attempt to get Contact "+models.ADDRESS)
+		app.ForbiddenError(c, "Forbidden  attempt to get Contact "+models.ADDRESS)
 		return
 	}
 
@@ -130,11 +130,11 @@ var GetPhone = func(c *gin.Context) {
 	contactID := &models.ContactID{}
 	userID, err := models.FetchAuthenticatedID(c, &contactID)
 	if err != nil {
-		app.UnauthorizedError(c, "Unauthorized attempt to get Contact "+models.PHONE)
+		app.ForbiddenError(c, "Forbidden attempt to get Contact "+models.PHONE)
 		return
 	}
 
-	phone := models.GetContactInfo(userID, contactID.ID, string(models.PHONE))
+	phone := models.GetContactInfo(userID, contactID.ID, models.PHONE)
 	if phone == nil {
 		app.ForbiddenError(c, "That user isn't associated with you.")
 		return

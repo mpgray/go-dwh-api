@@ -17,6 +17,7 @@ const (
 	refresh        = "/account/refresh"
 	logout         = "/account/logout"
 	newContact     = "/contact/new"
+	newStatement   = "/statement/new"
 	getStatement   = "/statement"
 	getContact     = "/my/contact"
 	getContacts    = "/my/contacts"
@@ -48,6 +49,7 @@ func Router() *gin.Engine {
 		authenticated.POST(refresh, controllers.Refresh)
 		authenticated.POST(logout, controllers.Logout)
 		authenticated.POST(getStatement, controllers.GetStatement)
+		authenticated.POST(newStatement, controllers.CreateStatement)
 		// All contact endpoints
 		authenticated.POST(newContact, controllers.CreateContact)
 		authenticated.POST(getContact, controllers.GetContact)

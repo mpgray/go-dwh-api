@@ -8,6 +8,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateStatement is a controller to make a new contact
+var CreateStatement = func(c *gin.Context) {
+	contact := &models.Contact{}
+	userID, err := models.FetchAuthenticatedID(c, &contact)
+	if err != nil {
+		app.UnauthorizedError(c, "Unauthorized attempt to create a statement.")
+		return
+	}
+
+	contact.UserID = userID
+	statement := &models.Statement{}
+	resp := statement.CreateStatement() //Create contact
+	u.Respond(c.Writer, resp)
+}
+
 // GetStatement gets the current statmen of a single user
 var GetStatement = func(c *gin.Context) {
 	contactID := &models.ContactID{}

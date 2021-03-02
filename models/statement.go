@@ -57,6 +57,15 @@ const (
 	DECEMBER
 )
 
+// CreateStatement validates and create contact and sends the json
+func (statement *Statement) CreateStatement() map[string]interface{} {
+
+	app.GetDB().Create(statement)
+	resp := u.Message(true, "Statement successfully created.")
+	resp["statement"] = statement
+	return resp
+}
+
 // GetCurrentStatement of the account number.
 func GetCurrentStatement(contactID uint32) *Statement {
 
