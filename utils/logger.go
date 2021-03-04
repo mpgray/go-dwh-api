@@ -1,5 +1,9 @@
 package utils
 
+/* This is a basic implementation of the zap logger. It uses lumberjack to split up and log the past logs
+in a thoughtful way.
+*/
+
 import (
 	"os"
 
@@ -26,7 +30,7 @@ func init() {
 func getEncoder() zapcore.Encoder {
 
 	encoderConfig := zap.NewProductionEncoderConfig()
-	switch os.Getenv("go_logger") {
+	switch os.Getenv("zap_logger") {
 	case "Example":
 		encoderConfig = zap.NewDevelopmentEncoderConfig()
 	case "Developer":
@@ -46,7 +50,7 @@ func getLogWriter() zapcore.WriteSyncer {
 		MaxSize:    50,
 		MaxBackups: 12,
 		MaxAge:     30,
-		Compress:   false,
+		Compress:   true,
 	}
 	return zapcore.AddSync(lumberJackLogger)
 }
