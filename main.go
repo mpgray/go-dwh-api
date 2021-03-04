@@ -1,37 +1,36 @@
 package main
 
 import (
-	"fmt"
-	"go-hoa-api/app"
-	"go-hoa-api/controllers"
+	"go-dwh-api/api"
+	"go-dwh-api/app"
+	m "go-dwh-api/models"
+	u "go-dwh-api/utils"
 	"net/http"
 	"os"
-
-	"github.com/gorilla/mux"
 )
 
 func main() {
 
-	router := mux.NewRouter()
+	// List of Table data from structs
+	app.GetDB().AutoMigrate(&m.Contact{}, &m.FullName{},
+		&m.Address{}, &m.Phone{}, &m.Statement{}, &m.User{})
 
-	router.HandleFunc("/v1/user/new", controllers.CreateAccount).Methods("POST")
-	router.HandleFunc("/v1/user/login", controllers.Authenticate).Methods("POST")
-	router.HandleFunc("/v1/contacts/new", controllers.CreateContact).Methods("POST")
-	router.HandleFunc("/v1/me/contacts", controllers.GetContactsFor).Methods("GET") //  user/2/contacts
-
-	router.Use(app.JwtAuthentication) //attach JWT auth middleware
-
-	//router.NotFoundHandler = app.NotFoundHandler
-
+	// Tries to get port data from .env.
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8989" //localhost
+	} else {
+		u.Log.Fatalf("Attempted to connect to port %s but it was already in use.", port)
 	}
 
-	fmt.Println(port)
+	u.Log.Info("Connected on port " + port)
 
-	err := http.ListenAndServe(":"+port, router) //Launch the app, visit localhost:8000/api
+	router := api.Router()
+	handler := api.CorsConfig().Handler(router)
+	err := http.ListenAndServe(":"+port, handler) //Launch the app, visit localhost:8989/api
 	if err != nil {
-		fmt.Print(err)
+		u.Log.Fatal("Could not start the server. Perhaps a problem with the handler")
 	}
+
+	u.Log.Infof("**Golang Backend API for Driveway Home Started Successfully**")
 }
