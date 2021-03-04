@@ -19,7 +19,7 @@ var redisClient *redis.Client
 func init() {
 	e := godotenv.Load()
 	if e != nil {
-		u.Log.Info("No .env found. This doesn't exist in all enviornment, like production, so is generally ok. It must exist in Development")
+		u.Log.Info("No .env found. This doesn't exist in all enviornments, like production, so is generally ok. It must exist in Development")
 	}
 
 	postgresDB()

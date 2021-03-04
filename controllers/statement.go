@@ -23,7 +23,7 @@ var CreateStatement = func(c *gin.Context) {
 	u.Respond(c.Writer, resp)
 }
 
-// GetStatement gets the current statmen of a single user
+// GetStatement gets the current statment of a single user
 var GetStatement = func(c *gin.Context) {
 	contactID := &models.ContactID{}
 	_, err := models.FetchAuthenticatedID(c, &contactID)
@@ -37,7 +37,22 @@ var GetStatement = func(c *gin.Context) {
 		app.ForbiddenError(c, "That statement isn't associated with you.")
 		return
 	}
-	resp := u.Message(true, "Contact Retrieved Successfully")
+	resp := u.Message(true, "Statment Retrieved Successfully")
 	resp["statement"] = statement
+	u.Respond(c.Writer, resp)
+}
+
+// GetStatementsFor searches for contact by address and name
+var GetStatementsFor = func(c *gin.Context) {
+	metadata, err := models.ExtractTokenMetadata(c.Request)
+	if err != nil {
+		app.UnauthorizedError(c, "Unauthorized attempt to get statement history ")
+		return
+	}
+	userID := metadata.UserID
+
+	statements := models.GetStatementHistory(userID)
+	resp := u.Message(true, "Statement History Retrieved Successfully")
+	resp["statement"] = statements
 	u.Respond(c.Writer, resp)
 }

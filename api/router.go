@@ -8,59 +8,47 @@ import (
 	"github.com/rs/cors"
 )
 
-//api endpoints
-const (
-	// Does not need authorization
-	newUser = "/user/new"
-	login   = "/account/login"
-	// Needs authorization
-	refresh        = "/account/refresh"
-	logout         = "/account/logout"
-	newContact     = "/contact/new"
-	newStatement   = "/statement/new"
-	getStatement   = "/statement"
-	getContact     = "/my/contact"
-	getContacts    = "/my/contacts"
-	searchContacts = "/my/contacts/search"
-	getName        = "/my/contact/name"
-	getNames       = "/my/contact/names"
-	getAddress     = "/my/contact/address"
-	getAddresses   = "/my/contact/addresses"
-	getPhone       = "/my/contact/phone"
-	getPhones      = "/my/contact/phones"
-)
-
 // Router creates and serves the server
 func Router() *gin.Engine {
 	router := gin.Default()
+	const API string = "/api/v1"
 
 	// Group that needs no authenticating, i.e. unauthenticated
-	unauthenticated := router.Group("/api/v1")
+	unauthenticated := router.Group(API)
 	{
-		unauthenticated.POST(login, controllers.Login)
-		unauthenticated.POST(newUser, controllers.CreateUser)
+		unauthenticated.POST("/login", controllers.Login)
+		unauthenticated.POST("/user/new", controllers.CreateUser)
 
 	}
 
-	authenticated := router.Group("/api/v1/auth")
 	// Group that requires an authenticated user
+	authenticated := router.Group(API + "/auth")
 	authenticated.Use(controllers.TokenAuthenticator())
 	{
-		authenticated.POST(refresh, controllers.Refresh)
-		authenticated.POST(logout, controllers.Logout)
-		authenticated.POST(getStatement, controllers.GetStatement)
-		authenticated.POST(newStatement, controllers.CreateStatement)
-		// All contact endpoints
-		authenticated.POST(newContact, controllers.CreateContact)
-		authenticated.POST(getContact, controllers.GetContact)
-		authenticated.GET(getContacts, controllers.GetContactsFor)
-		authenticated.GET(searchContacts, controllers.SearchContactsFor)
-		authenticated.POST(getName, controllers.GetName)
-		authenticated.GET(getNames, controllers.GetNamesFor)
-		authenticated.POST(getAddress, controllers.GetAddress)
-		authenticated.POST(getPhone, controllers.GetPhone)
-		authenticated.GET(getAddresses, controllers.GetAddressesFor)
-		authenticated.GET(getPhones, controllers.GetPhonesFor)
+		authenticated.POST("/refresh", controllers.Refresh)
+		authenticated.POST("/logout", controllers.Logout)
+	}
+
+	contacts := router.Group(API + "/contact")
+	contacts.Use(controllers.TokenAuthenticator())
+	{
+		contacts.POST("", controllers.GetContact)
+		contacts.POST("/new", controllers.CreateContact)
+		contacts.GET("/all", controllers.GetContactsFor)
+		contacts.GET("/search", controllers.SearchContactsFor)
+		contacts.POST("/name", controllers.GetName)
+		contacts.GET("/names", controllers.GetNamesFor)
+		contacts.POST("/address", controllers.GetAddress)
+		contacts.POST("/phone", controllers.GetPhone)
+		contacts.GET("/addresses", controllers.GetAddressesFor)
+		contacts.GET("/phones", controllers.GetPhonesFor)
+	}
+
+	statements := router.Group(API + "/statement")
+	statements.Use(controllers.TokenAuthenticator())
+	{
+		statements.POST("", controllers.GetStatement)
+		statements.POST("/new", controllers.CreateStatement)
 	}
 
 	return router

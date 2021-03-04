@@ -13,11 +13,11 @@ import (
 type Statement struct {
 	gorm.Model  `json:"-"`
 	ContactID   uint32      `json:"-"`
-	DueDate     time.Time   `json:"dueDate"`
+	DueDate     time.Time   `json:"dueDate" gorm:"index:,sort:desc`
 	Balance     float64     `json:"balance"`
 	Assessments *Assessment `json:"assessment,omitempty" gorm:"foreignKey:StatementID"`
 	PastDue     float64     `json:"pastDue"`
-	Monthly     Monthly     `json:"monthlyStatement"  gorm:"foreignKey:StatementID"`
+	Monthly     Monthly     `json:"monthlyStatement" gorm:"foreignKey:StatementID"`
 }
 
 // Assessment is different then a one time Charge as it is possible to be paid in installments.
@@ -78,28 +78,14 @@ func GetCurrentStatement(contactID uint32) *Statement {
 	return statement
 }
 
-/*
-// GetStatementHistory of the account number for the past year.
-func GetStatementHistory(user uint32) []*Statement {
-
+// GetStatementHistory of all contacts
+func GetStatementHistory(contactID uint32) []*Statement {
 	statements := make([]*Statement, 0)
-	err := app.GetDB().Table("statements").Where("user_id = ?", user).Find(&statements).Error
+
+	err := app.GetDB().Where("contact_id = ?", contactID).Preload(clause.Associations).Find(&statements).Error
 	if err != nil {
 		u.Log.Error(err)
 		return nil
-	}
-
-	return statements
-}
-*/
-
-// GetStatementHistory of all contacts
-func GetStatementHistory(user uint32) []*Statement {
-	statements := make([]*Statement, 0)
-
-	err := app.GetDB().Where("user_id = ?", user).Preload(clause.Associations).Find(&statements).Error
-	if err != nil {
-		u.Log.Error(err)
 	}
 
 	return statements
