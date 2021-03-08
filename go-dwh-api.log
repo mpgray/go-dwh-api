@@ -699,3 +699,13 @@
 {"level":"INFO","ts":"2021-03-01T08:15:25.549-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
 {"level":"INFO","ts":"2021-03-01T08:17:06.563-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
 {"level":"INFO","ts":"2021-03-01T08:17:07.327-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-02T07:27:48.567-0700","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-03-02T07:27:48.877-0700","caller":"go-dwh-api/main.go:26","msg":"Connected on port 8989"}
+{"level":"ERROR","ts":"2021-03-02T07:30:50.008-0700","caller":"app/errors.go:54","msg":"Json Wrong during authentication"}
+{"level":"INFO","ts":"2021-03-02T07:30:50.008-0700","caller":"app/errors.go:26","msg":"Unauthorized attempt to get a statement "}
+{"level":"ERROR","ts":"2021-03-02T07:31:29.504-0700","caller":"app/errors.go:54","msg":"Json Wrong during authentication"}
+{"level":"INFO","ts":"2021-03-02T07:31:29.505-0700","caller":"app/errors.go:26","msg":"Unauthorized attempt to get a statement "}
+{"level":"ERROR","ts":"2021-03-02T07:34:17.102-0700","caller":"models/statement.go:66","msg":"record not found"}
+{"level":"WARN","ts":"2021-03-02T07:34:17.103-0700","caller":"app/errors.go:35","msg":"That statement isn't associated with you."}
+{"level":"ERROR","ts":"2021-03-02T07:40:08.341-0700","caller":"models/statement.go:66","msg":"record not found"}
+{"level":"WARN","ts":"2021-03-02T07:40:08.341-0700","caller":"app/errors.go:35","msg":"That statement isn't associated with you."}

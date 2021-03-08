@@ -13,7 +13,7 @@ import (
 type Statement struct {
 	gorm.Model  `json:"-"`
 	ContactID   uint32      `json:"-"`
-	DueDate     time.Time   `json:"dueDate" gorm:"index:,sort:desc`
+	DueDate     time.Time   `json:"dueDate" gorm:"index:,sort:desc"`
 	Balance     float64     `json:"balance"`
 	Assessments *Assessment `json:"assessment,omitempty" gorm:"foreignKey:StatementID"`
 	PastDue     float64     `json:"pastDue"`
