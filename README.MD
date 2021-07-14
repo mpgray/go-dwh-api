@@ -6,6 +6,7 @@ Current Feature:
 - User creation and login
 - Postgres and Redis backend
 - Advanced Logging
+- Error Handling
 
 Working on Features:
 - Email system
