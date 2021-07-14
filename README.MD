@@ -1,4 +1,4 @@
-Go Land REST API
+Go Lang REST API
 
 Current Feature:
 - Complex endpoints
@@ -7,5 +7,8 @@ Current Feature:
 - Postgres and Redis backend
 - Advanced Logging
 
-
+Working on Features:
+- Email system
+- Billing handoff
+- completing all needed endpoints
 
