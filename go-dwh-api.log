@@ -709,3 +709,22 @@
 {"level":"WARN","ts":"2021-03-02T07:34:17.103-0700","caller":"app/errors.go:35","msg":"That statement isn't associated with you."}
 {"level":"ERROR","ts":"2021-03-02T07:40:08.341-0700","caller":"models/statement.go:66","msg":"record not found"}
 {"level":"WARN","ts":"2021-03-02T07:40:08.341-0700","caller":"app/errors.go:35","msg":"That statement isn't associated with you."}
+{"level":"INFO","ts":"2021-03-07T22:00:25.976-0700","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-03-07T22:00:26.448-0700","caller":"go-dwh-api/main.go:26","msg":"Connected on port 8989"}
+{"level":"WARN","ts":"2021-03-07T22:09:39.056-0700","caller":"models/user.go:88","msg":"User tried to register with an email that already exists: penis@mgray.me"}
+{"level":"INFO","ts":"2021-03-07T22:13:01.045-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"INFO","ts":"2021-03-07T22:13:12.254-0700","caller":"app/errors.go:26","msg":"You are not authorized"}
+{"level":"ERROR","ts":"2021-03-07T22:15:49.198-0700","caller":"models/statement.go:75","msg":"record not found"}
+{"level":"WARN","ts":"2021-03-07T22:15:49.198-0700","caller":"app/errors.go:35","msg":"That statement isn't associated with you."}
+{"level":"ERROR","ts":"2021-03-08T07:49:49.638-0700","caller":"app/errors.go:45","msg":"Database Connection error during loggin. Please retry"}
+{"level":"ERROR","ts":"2021-03-08T07:50:13.195-0700","caller":"app/errors.go:54","msg":"JSON incorrect during the creation if redis pairs"}
+{"level":"INFO","ts":"2021-03-08T07:52:17.997-0700","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"INFO","ts":"2021-03-08T07:52:18.277-0700","caller":"go-dwh-api/main.go:26","msg":"Connected on port 8989"}
+{"level":"ERROR","ts":"2021-03-08T07:52:38.932-0700","caller":"models/statement.go:75","msg":"record not found"}
+{"level":"WARN","ts":"2021-03-08T07:52:38.932-0700","caller":"app/errors.go:35","msg":"That statement isn't associated with you."}
+{"level":"ERROR","ts":"2021-03-08T07:53:13.594-0700","caller":"app/errors.go:54","msg":"Json Wrong during authentication"}
+{"level":"INFO","ts":"2021-03-08T07:53:13.594-0700","caller":"app/errors.go:26","msg":"Unauthorized attempt to create a statement."}
+{"level":"INFO","ts":"2021-07-12T19:49:47.793-0600","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"FATAL","ts":"2021-07-12T19:49:47.801-0600","caller":"app/database.go:63","msg":"Could not connect to Redis cache so startup fails."}
+{"level":"INFO","ts":"2021-07-12T19:50:33.701-0600","caller":"app/database.go:39","msg":"Conntecting to DB... host=localhost user=postgres dbname=hoa port=5432 sslmode=disable password=yarg3261"}
+{"level":"FATAL","ts":"2021-07-12T19:50:33.706-0600","caller":"app/database.go:63","msg":"Could not connect to Redis cache so startup fails."}
